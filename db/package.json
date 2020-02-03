@@ -1,0 +1,15 @@
+{
+  "name": "db",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "up": "docker-compose -p tonbly up -d",
+    "down": "docker-compose -p tonbly down",
+    "console": "npx hasura console --no-browser --admin-secret=myadminsecretkey",
+    "create-initial-migration": "npx hasura migrate create \"init\" --from-server --admin-secret=myadminsecretkey",
+    "dump": "docker exec tonbly_postgres_1 pg_dump -U postgres -d postgres --column-inserts --data-only $(docker exec tonbly_postgres_1 psql -q -A -t -U postgres -c \"SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_schema, table_name\" | sed -e 's/^/-t /' | sed 's/$/ /' | tr -d '\\n') | sed -n -e '/^INSERT INTO public/p' >> dump.sql"
+  },
+  "devDependencies": {
+    "hasura-cli": "beta"
+  }
+}
