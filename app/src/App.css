@@ -1,0 +1,25 @@
+.HolyGrail {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.HolyGrail-body {
+  display: flex;
+  flex: 1;
+}
+
+.HolyGrail-content {
+  flex: 1;
+}
+
+.HolyGrail-nav,
+.HolyGrail-ads {
+  /* カラム幅は12em */
+  flex: 0 0 12em;
+}
+
+.HolyGrail-nav {
+  /* ナビゲーションを左に */
+  order: -1;
+}

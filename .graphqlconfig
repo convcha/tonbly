@@ -1,0 +1,16 @@
+{
+  "name": "Tonbly",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "http://localhost:8080/v1/graphql",
+        "headers": {
+          "content-type": "application/json",
+          "x-hasura-admin-secret": "myadminsecretkey"
+        },
+        "introspect": true
+      }
+    }
+  }
+}
