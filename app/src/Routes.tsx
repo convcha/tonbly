@@ -1,9 +1,9 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import Article from "./pages/Article";
 import { ArticleEdit } from "./pages/ArticleEdit";
 import { ArticleNew } from "./pages/ArticleNew";
 import { useAuth } from "./utils/auth";
-import { ArticleDetail } from "./pages/ArticleDetail";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 
@@ -19,7 +19,7 @@ export const Routes = () => (
       <ArticleEdit />
     </PrivateRoute>
     <PrivateRoute path="/articles/:id">
-      <ArticleDetail />
+      <Article />
     </PrivateRoute>
     <PrivateRoute path="/">
       <Home />
