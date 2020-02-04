@@ -1,7 +1,20 @@
 import { useQuery } from "@apollo/react-hooks";
+import {
+  Avatar,
+  Box,
+  Container,
+  Divider,
+  Link,
+  List,
+  ListItem,
+  ListItemText,
+  Typography
+} from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { Link as RouterLink } from "react-router-dom";
 import gql from "graphql-tag";
 import React from "react";
-import { Link } from "react-router-dom";
+import { logs } from "../data";
 
 interface Author {
   name: string;
@@ -33,33 +46,55 @@ const GET_ARTICLES = gql`
   }
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    avatar: {
+      marginRight: theme.spacing(1)
+    }
+  })
+);
+
 export function Home() {
+  const classes = useStyles();
   const { loading, error, data } = useQuery<ArticleData>(GET_ARTICLES);
+  console.log(data);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
   return (
-    <>
-      <h3>Home</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Author</th>
-            <th>Title</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.article.map(article => (
-            <tr key={article.id}>
-              <td>{article.author.name}</td>
-              <td>
-                <Link to={`/articles/${article.id}`}>{article.title}</Link>
-              </td>
-            </tr>
+    <Container maxWidth="sm">
+      <Box my={4}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          新着記事
+        </Typography>
+        <List
+          component="nav"
+          // className={classes.root}
+          aria-label="mailbox folders"
+        >
+          <Divider />
+          {logs.map(log => (
+            <Link
+              to="/articles/1"
+              key={log.primaryText}
+              color="inherit"
+              component={RouterLink}
+            >
+              <div>
+                <ListItem dense button>
+                  <Avatar src={log.avatarUrl} className={classes.avatar} />
+                  <ListItemText
+                    primary={log.primaryText}
+                    secondary={log.secondaryText}
+                  />
+                </ListItem>
+                <Divider />
+              </div>
+            </Link>
           ))}
-        </tbody>
-      </table>
-    </>
+        </List>
+      </Box>
+    </Container>
   );
 }
