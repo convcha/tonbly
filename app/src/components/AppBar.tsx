@@ -272,7 +272,7 @@ export function AppBar() {
               color="secondary"
               noWrap
             >
-              Tonbri
+              Tonbly
             </Typography>
           </Link>
           <AntTabs
