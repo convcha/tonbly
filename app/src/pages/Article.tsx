@@ -1,6 +1,5 @@
 import { Grid } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
-import Chip from "@material-ui/core/Chip";
 import Fab from "@material-ui/core/Fab";
 import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
@@ -9,6 +8,7 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ReactMarkdown from "react-markdown";
+import { Chip } from "../components/Chip";
 import { Link } from "../components/Link";
 import { articles } from "../data";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
@@ -121,40 +121,35 @@ export default function Article() {
           <Chip
             size="small"
             label="JavaScript"
-            component="a"
-            href="/"
+            to="/"
             clickable
             className={classes.tag}
           />
           <Chip
             size="small"
             label="初心者"
-            component="a"
-            href="/"
+            to="/"
             clickable
             className={classes.tag}
           />
           <Chip
             size="small"
             label="Vue.js"
-            component="a"
-            href="/"
+            to="/"
             clickable
             className={classes.tag}
           />
           <Chip
             size="small"
             label="コンポーネント"
-            component="a"
-            href="/"
+            to="/"
             clickable
             className={classes.tag}
           />
           <Chip
             size="small"
             label="Vuex"
-            component="a"
-            href="/"
+            to="/"
             clickable
             className={classes.tag}
           />
