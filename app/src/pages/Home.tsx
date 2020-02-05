@@ -4,16 +4,15 @@ import {
   Box,
   Container,
   Divider,
-  Link,
   List,
   ListItem,
   ListItemText,
   Typography
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Link as RouterLink } from "react-router-dom";
 import gql from "graphql-tag";
 import React from "react";
+import { Link } from "../components/Link";
 import { logs } from "../data";
 
 interface Author {
@@ -75,12 +74,7 @@ export function Home() {
         >
           <Divider />
           {logs.map(log => (
-            <Link
-              to="/articles/1"
-              key={log.primaryText}
-              color="inherit"
-              component={RouterLink}
-            >
+            <Link to="/articles/1" key={log.primaryText} color="inherit">
               <div>
                 <ListItem dense button>
                   <Avatar src={log.avatarUrl} className={classes.avatar} />
