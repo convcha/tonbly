@@ -1,4 +1,4 @@
-import { Grid, Link } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
 import Fab from "@material-ui/core/Fab";
@@ -9,9 +9,9 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ReactMarkdown from "react-markdown";
+import { Link } from "../components/Link";
 import { articles } from "../data";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
-import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,12 +80,7 @@ export default function Article() {
           wrap="nowrap"
         >
           <Grid container alignItems="center">
-            <Link
-              to="/"
-              underline="none"
-              color="inherit"
-              component={RouterLink}
-            >
+            <Link to="/" underline="none" color="inherit">
               <Avatar
                 alt="devilune"
                 src="/avatar.jpg"
