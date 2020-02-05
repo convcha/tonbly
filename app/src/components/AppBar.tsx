@@ -17,12 +17,12 @@ import {
 import { AppBar as MuiAppBar } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import { AccountCircle } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useAuth } from "../utils/auth";
+import { Link } from "./Link";
 import { SplitButton } from "./SplitButton";
 import { useHistory } from "react-router-dom";
 
@@ -265,7 +265,7 @@ export function AppBar() {
         className={classes.appBar}
       >
         <Toolbar>
-          <Link href="/" underline="none">
+          <Link to="/" underline="none">
             <Typography
               className={classes.title}
               variant="h5"
