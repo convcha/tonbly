@@ -23,3 +23,40 @@
   /* ナビゲーションを左に */
   order: -1;
 }
+
+.tui-editor-contents {
+  font-size: 1.1em !important;
+}
+
+.tui-editor-contents code,
+.tui-editor-contents pre {
+  color: #e3e3e3 !important;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
+    monospace !important;
+}
+
+/*.tui-editor-contents p {*/
+/*  color: #333 !important;*/
+/*}*/
+
+.tui-editor-contents pre code {
+  font-size: 0.95em !important;
+}
+
+.tui-editor-contents :not(pre) code {
+  color: #333 !important;
+  background-color: #eee !important;
+  padding: 0.1em 0.4em !important;
+}
+
+.tui-editor-contents pre {
+  background-color: #364549 !important;
+}
+
+.tui-editor-contents p {
+  line-height: 1.9 !important;
+}
+
+.tui-editor-contents h1 {
+  border-bottom: 1px solid #dbdbdb !important;
+}

@@ -1,0 +1,34 @@
+/*https://saruwakakun.com/html-css/reference/ribbon*/
+
+.ribbon {
+  display: inline-block;
+  position: relative;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  padding: 0 40px 0 18px;
+  font-size: 0.8rem;
+  background: #ef5350;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.ribbon:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  z-index: 1;
+}
+
+.ribbon:after {
+  top: 0;
+  right: 0;
+  border-width: 16px 8px 16px 0;
+  border-color: transparent #fff transparent transparent;
+  border-style: solid;
+}
+
+.ribbon:hover {
+  text-decoration: underline;
+}
