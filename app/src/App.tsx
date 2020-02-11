@@ -27,9 +27,9 @@ export default function App() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       {auth.isAuthenticated && <AppBar />}
       <Routes />
-    </>
+    </div>
   );
 }
