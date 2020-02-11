@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Article from "./pages/Article";
 import { ArticleEdit } from "./pages/ArticleEdit";
 import { ArticleNew } from "./pages/ArticleNew";
+import { ArticleNewMock } from "./pages/ArticleNewMock";
 import { useAuth } from "./utils/auth";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
@@ -12,6 +13,9 @@ export const Routes = () => (
     <Route path="/login">
       <Login />
     </Route>
+    <PrivateRoute path="/articles/new">
+      <ArticleNewMock />
+    </PrivateRoute>
     <PrivateRoute path="/articles/new">
       <ArticleNew />
     </PrivateRoute>

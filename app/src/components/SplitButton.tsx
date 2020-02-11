@@ -8,16 +8,19 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
+import { useHistory } from "react-router-dom";
 
 const options = ["記事を書く", "下書き一覧"];
 
 export function SplitButton() {
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
+    history.push("/articles/new");
   };
 
   const handleMenuItemClick = (

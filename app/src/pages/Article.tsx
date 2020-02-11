@@ -15,9 +15,9 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Chip } from "../components/Chip";
 import { Link } from "../components/Link";
 import { Ribbon } from "../components/Ribbon";
+import { TagLink } from "../components/Tag";
 import { articles } from "../data";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import "codemirror/lib/codemirror.css";
@@ -240,41 +240,11 @@ export default function Article() {
             {articles.bakusoku.title}
           </Typography>
           <div className={classes.tags}>
-            <Chip
-              size="small"
-              label="JavaScript"
-              to="/"
-              clickable
-              className={classes.tag}
-            />
-            <Chip
-              size="small"
-              label="初心者"
-              to="/"
-              clickable
-              className={classes.tag}
-            />
-            <Chip
-              size="small"
-              label="Vue.js"
-              to="/"
-              clickable
-              className={classes.tag}
-            />
-            <Chip
-              size="small"
-              label="コンポーネント"
-              to="/"
-              clickable
-              className={classes.tag}
-            />
-            <Chip
-              size="small"
-              label="Vuex"
-              to="/"
-              clickable
-              className={classes.tag}
-            />
+            <TagLink label="JavaScript" to="/" />
+            <TagLink label="初心者" to="/" />
+            <TagLink label="Vue.js" to="/" />
+            <TagLink label="コンポーネント" to="/" />
+            <TagLink label="Vuex" to="/" />
           </div>
           <Viewer
             usageStatistics={false}
