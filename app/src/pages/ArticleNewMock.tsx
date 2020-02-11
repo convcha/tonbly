@@ -1,5 +1,5 @@
 import { Button, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Editor } from "@toast-ui/react-editor";
 import { TagInput } from "../components/TagInput";
@@ -34,6 +34,20 @@ const useStyles = makeStyles((_: Theme) =>
 
 export const ArticleNewMock = () => {
   const classes = useStyles();
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const editorRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (titleInputRef && titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
+
+    if (editorRef?.current) {
+      const codeMirror = editorRef?.current?.editorInst?.mdEditor?.cm;
+      // FIXME: this setting does not work
+      codeMirror.options.tabindex = 1;
+    }
+  }, []);
 
   return (
     <div className={classes.container}>
@@ -43,11 +57,13 @@ export const ArticleNewMock = () => {
           variant="outlined"
           size="small"
           placeholder="タイトル"
+          inputRef={titleInputRef}
         />
         <TagInput allowDuplicates={false} style={{ marginTop: "5px" }} />
       </div>
       <div className={classes.editorBody}>
         <Editor
+          ref={editorRef}
           usageStatistics={false}
           // language="ja"
           previewStyle="vertical"
