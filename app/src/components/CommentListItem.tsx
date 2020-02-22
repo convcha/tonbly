@@ -18,6 +18,7 @@ import { Editor, Viewer } from "@toast-ui/react-editor";
 import { GET_ARTICLE } from "../pages/ArticleDetail";
 import { profileStorage } from "../utils/auth";
 import { formatISODateStringToYYYYMMDDHHMM } from "../utils/util";
+import { useConfirmationDialog } from "./Dialog";
 import { Link } from "./Link";
 
 interface CommentListItemProps {
@@ -58,6 +59,14 @@ const useStyles = makeStyles((_: Theme) =>
 export const CommentListItem: React.FC<CommentListItemProps> = props => {
   const { id, articleId, userId, username, text, created_at } = props;
 
+  const [
+    DeleteConfirmationDialog,
+    openDeleteConfirmationDialog,
+    closeDeleteConfirmationDialog
+  ] = useConfirmationDialog("コメントを削除しますか?", "削除する", () => {
+    closeDeleteConfirmationDialog();
+    deleteComment({ variables: { id } });
+  });
   // FIXME: This is not the responsibility of this component
   const refetchQueries = [
     {
@@ -83,7 +92,7 @@ export const CommentListItem: React.FC<CommentListItemProps> = props => {
   };
 
   const onDeleteButtonClick = () => {
-    deleteComment({ variables: { id } });
+    openDeleteConfirmationDialog();
   };
 
   const onCancelButtonClick = () => {
@@ -99,6 +108,7 @@ export const CommentListItem: React.FC<CommentListItemProps> = props => {
 
   return (
     <>
+      {DeleteConfirmationDialog()}
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Link to="/">

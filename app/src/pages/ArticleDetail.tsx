@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
 import { CommentListItem } from "../components/CommentListItem";
+import { useConfirmationDialog } from "../components/Dialog";
 import { Link } from "../components/Link";
 import { Ribbon } from "../components/Ribbon";
 import { TagLink } from "../components/Tag";
@@ -198,6 +199,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function ArticleDetail() {
+  const [
+    DeleteConfirmationDialog,
+    openDeleteConfirmationDialog,
+    closeDeleteConfirmationDialog
+  ] = useConfirmationDialog("記事を削除しますか?", "削除する", async () => {
+    closeDeleteConfirmationDialog();
+    await deleteArticle({ variables: { id } });
+    history.replace("/");
+  });
   const classes = useStyles();
   const history = useHistory();
   const { id } = useParams();
@@ -245,11 +255,7 @@ export default function ArticleDetail() {
   };
 
   const onDeleteButtonClick = async () => {
-    if (window.confirm("Are you sure?")) {
-      await deleteArticle({ variables: { id } });
-      alert("Done!");
-      history.replace("/");
-    }
+    openDeleteConfirmationDialog();
   };
 
   const onPostCommentButtonClick = async () => {
@@ -274,6 +280,7 @@ export default function ArticleDetail() {
 
   return (
     <>
+      {DeleteConfirmationDialog()}
       <Container maxWidth="md" className={classes.container}>
         <Box my={4}>
           <Grid
