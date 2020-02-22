@@ -1,0 +1,9 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      INSERT INTO public."user" (name, password, role, salt, email) VALUES ('John Doe', 'pqSWfO+4fG3W2YOy2OUihVPXddJp+ODy57fe1DKKQMG3xIKC12DHZS1DFTjdA7FG6rDNEzIjy6NrprygCXqeNbB67RWgUnlv1MWVvoHrmdYsnWebHODFhs3jE18T8tH/KETXCXYDHhjJpzyOqb+0j2vIu/ahM6dMULhKM45y00M=', 'tonbly-admin', 'pub5E8jXcxt7XGp6nVsncCIUI7pB1syK+wFQOy0c4yO8ohMRMMlbuSpSAnHNBXXEj1q2ZnDdxHToVQX8kC7EIg==', 'johndoe@example.com');
+      INSERT INTO public."user" (name, password, role, salt, email) VALUES ('Hanako Yamada', 'lMTJ05MBfDJGEO3k8Kq8W59bk9U4vVscZU0T3m29uWnzBUx90N26kZklSHy8iiHD8PM0QPEq0N0Lk+TVWZiHUTOMaT5PktzM/Wb6jYIYPbFLttWIFJE9fx7brVA+4XL218iMQCaAgQEslvGIPJ/6x2sSc9TNw0SmC4d3jRoXdKw=', 'tonbly-admin', 'lPoq9Y5uziZtC4gYpoW8raI+X8lbQqdWH8RSR3UXsXQtLe5i7YM3tjj4l9Oh3ZWJO3RxgpmAgm3TMDg/lE6+JQ==', 'hanakoyamada@example.com');
+      INSERT INTO public."user" (name, password, role, salt, email) VALUES ('Jane Doe', 'D5MZ05faCeZAIymJ7bXVD/1mRgnjNiB884ZEyH5/1dXWWZloBtxHYm6sWXtYi26l5qyxfaAp3bXuqkPpOqbY6ddlRfxkrcGM1VsFaZ6eOxGGUbIQwuErh9R5MXhP9v03o40k8MgOxg+WXe9jwxDbhxR9DgpH5C43JA7IZ40M1A8=', 'tonbly-user', 'y8kPx3S6OjpFe+6U7E6IQQ7CrLy/fnu4wOmZhn820k/csCjmyY4ekfecY0KO/IOu4dZ8V1sLp5tC5QAH989FyA==', 'janedoe@example.com');
+      INSERT INTO public."user" (name, password, role, salt, email) VALUES ('Yiming', 'ydpPMitj0pwNPgj9m0pFywXSpTUGwzmebVQqI3WVmkAistOeUsyunQ/oNrVeIc1toX8jOvUUaJClLRJOhdAq6S9Z3/Fujqbw/SmKv97bWfn6fPC21lQ/uw6Um142sy+r8viYYtyku2tuV5r9KUTRjq4MVlKnqnv/xFzOkR8MUzg=', 'tonbly-user', 'QjXR7tp4Et7FtZNf89XAphauo0j28B35CbvVN4AGerthx/rv3rPY/yuO3dHLD2jOi/YjcXq344S3uL2tx74Iow==', 'yiming@example.com');
+  type: run_sql

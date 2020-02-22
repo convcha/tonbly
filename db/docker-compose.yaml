@@ -13,7 +13,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
   graphql-engine:
-    image: hasura/graphql-engine:v1.1.0-beta.2.cli-migrations
+    image: hasura/graphql-engine:v1.1.0.cli-migrations
     ports:
       - "8080:8080"
     depends_on:
