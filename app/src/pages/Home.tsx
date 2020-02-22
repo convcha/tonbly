@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/react-hooks";
 import {
   Avatar,
   Box,
@@ -15,9 +14,9 @@ import gql from "graphql-tag";
 import React from "react";
 import { Link } from "../components/Link";
 import { formatDistance, parseISO } from "date-fns";
-import { GetNewArticlesQuery } from "../generated/graphql";
+import { useGetNewArticlesQuery } from "../generated/graphql";
 
-const GET_NEW_ARTICLES = gql`
+gql`
   query GetNewArticles {
     article(order_by: { created_at: desc }) {
       id
@@ -51,9 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function Home() {
   const classes = useStyles();
-  const { loading, error, data } = useQuery<GetNewArticlesQuery>(
-    GET_NEW_ARTICLES
-  );
+  const { loading, error, data } = useGetNewArticlesQuery();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;

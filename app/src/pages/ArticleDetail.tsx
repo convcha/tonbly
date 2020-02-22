@@ -1,4 +1,3 @@
-import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Button, Divider, Grid, IconButton, List } from "@material-ui/core";
 import Badge from "@material-ui/core/Badge";
 import Fab from "@material-ui/core/Fab";
@@ -28,17 +27,15 @@ import "tui-editor/dist/tui-editor-extChart";
 import "tui-editor/dist/tui-editor-extTable";
 import { Editor, Viewer } from "@toast-ui/react-editor";
 import {
-  AddCommentMutation,
-  AddCommentMutationVariables,
-  DeleteArticleMutation,
-  DeleteArticleMutationVariables,
-  GetArticleDetailQuery,
-  GetArticleDetailQueryVariables
+  GetArticleDetailDocument,
+  useAddCommentMutation,
+  useDeleteArticleMutation,
+  useGetArticleDetailQuery
 } from "../generated/graphql";
 import { profileStorage } from "../utils/auth";
 import { formatISODateStringToYYYYMMDD } from "../utils/util";
 
-export const GET_ARTICLE_DETAIL = gql`
+gql`
   query GetArticleDetail($id: Int!) {
     article(where: { id: { _eq: $id } }) {
       id
@@ -69,7 +66,7 @@ export const GET_ARTICLE_DETAIL = gql`
   }
 `;
 
-const DELETE_ARTICLE = gql`
+gql`
   mutation DeleteArticle($id: Int!) {
     delete_article(where: { id: { _eq: $id } }) {
       affected_rows
@@ -77,7 +74,7 @@ const DELETE_ARTICLE = gql`
   }
 `;
 
-const ADD_COMMENT = gql`
+gql`
   mutation AddComment($article_id: Int!, $text: String!) {
     insert_comment(objects: { article_id: $article_id, text: $text }) {
       affected_rows
@@ -181,38 +178,17 @@ export default function ArticleDetail() {
   const commentEditorRef = useRef<any>(null);
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(999);
-  const { loading, error, data } = useQuery<
-    GetArticleDetailQuery,
-    GetArticleDetailQueryVariables
-  >(GET_ARTICLE_DETAIL, { variables: { id } });
-  const [deleteArticle] = useMutation<
-    DeleteArticleMutation,
-    DeleteArticleMutationVariables
-  >(DELETE_ARTICLE);
-  const [addComment] = useMutation<
-    AddCommentMutation,
-    AddCommentMutationVariables
-  >(ADD_COMMENT, {
+  const { loading, error, data } = useGetArticleDetailQuery({
+    variables: { id }
+  });
+  const [deleteArticle] = useDeleteArticleMutation();
+  const [addComment] = useAddCommentMutation({
     refetchQueries: [
       {
-        query: GET_ARTICLE_DETAIL,
+        query: GetArticleDetailDocument,
         variables: { id }
       }
     ]
-    // update(cache, { data: { insert_comment } }) {
-    //   const newComment = insert_comment.returning[0];
-    //   const data = cache.readQuery<ArticleData, ArticleVars>({
-    //     query: GET_ARTICLE,
-    //     variables: { id }
-    //   });
-    //   const article = data!.article[0];
-    //   article.comments.concat([newComment]);
-    //   cache.writeQuery<ArticleData, ArticleVars>({
-    //     query: GET_ARTICLE,
-    //     variables: { id },
-    //     data: { article: [article] }
-    //   });
-    // }
   });
 
   if (loading) return <p>Loading...</p>;

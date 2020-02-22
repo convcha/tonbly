@@ -1,4 +1,3 @@
-import { useMutation } from "@apollo/react-hooks";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import gql from "graphql-tag";
 import React, { useRef, useState } from "react";
@@ -16,12 +15,10 @@ import Typography from "@material-ui/core/Typography";
 import { DeleteForeverOutlined, EditOutlined } from "@material-ui/icons";
 import { Editor, Viewer } from "@toast-ui/react-editor";
 import {
-  DeleteCommentMutation,
-  DeleteCommentMutationVariables,
-  UpdateCommentMutation,
-  UpdateCommentMutationVariables
+  GetArticleDetailDocument,
+  useDeleteCommentMutation,
+  useUpdateCommentMutation
 } from "../generated/graphql";
-import { GET_ARTICLE_DETAIL } from "../pages/ArticleDetail";
 import { profileStorage } from "../utils/auth";
 import { formatISODateStringToYYYYMMDDHHMM } from "../utils/util";
 import { useConfirmationDialog } from "./Dialog";
@@ -36,7 +33,7 @@ interface CommentListItemProps {
   created_at: string;
 }
 
-const UPDATE_COMMENT = gql`
+gql`
   mutation UpdateComment($id: Int!, $text: String!) {
     update_comment(where: { id: { _eq: $id } }, _set: { text: $text }) {
       affected_rows
@@ -44,7 +41,7 @@ const UPDATE_COMMENT = gql`
   }
 `;
 
-const DELETE_COMMENT = gql`
+gql`
   mutation DeleteComment($id: Int!) {
     delete_comment(where: { id: { _eq: $id } }) {
       affected_rows
@@ -76,20 +73,14 @@ export const CommentListItem = (props: CommentListItemProps) => {
   // FIXME: This is not the responsibility of this component
   const refetchQueries = [
     {
-      query: GET_ARTICLE_DETAIL,
+      query: GetArticleDetailDocument,
       variables: { id: articleId }
     }
   ];
-  const [updateComment] = useMutation<
-    UpdateCommentMutation,
-    UpdateCommentMutationVariables
-  >(UPDATE_COMMENT, {
+  const [updateComment] = useUpdateCommentMutation({
     refetchQueries
   });
-  const [deleteComment] = useMutation<
-    DeleteCommentMutation,
-    DeleteCommentMutationVariables
-  >(DELETE_COMMENT, {
+  const [deleteComment] = useDeleteCommentMutation({
     refetchQueries
   });
   const commentEditorRef = useRef<any>(null);
