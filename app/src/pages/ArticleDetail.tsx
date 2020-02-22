@@ -27,52 +27,19 @@ import "tui-editor/dist/tui-editor-extUML";
 import "tui-editor/dist/tui-editor-extChart";
 import "tui-editor/dist/tui-editor-extTable";
 import { Editor, Viewer } from "@toast-ui/react-editor";
+import {
+  AddCommentMutation,
+  AddCommentMutationVariables,
+  DeleteArticleMutation,
+  DeleteArticleMutationVariables,
+  GetArticleDetailQuery,
+  GetArticleDetailQueryVariables
+} from "../generated/graphql";
 import { profileStorage } from "../utils/auth";
 import { formatISODateStringToYYYYMMDD } from "../utils/util";
 
-interface User {
-  id: number;
-  name: string;
-}
-
-interface Tag {
-  id: number;
-  label: string;
-}
-
-interface TagData {
-  tag: Tag;
-}
-
-interface Comment {
-  id: number;
-  text: string;
-  created_at: string;
-  updated_at: string;
-  user: User;
-}
-
-interface Article {
-  id: number;
-  title: string;
-  content: string;
-  author_user_id: number;
-  created_at: string;
-  author: User;
-  article_tags: TagData[];
-  comments: Comment[];
-}
-
-interface ArticleData {
-  article: Article[];
-}
-
-interface ArticleVars {
-  id: number;
-}
-
-export const GET_ARTICLE = gql`
-  query GetArticle($id: Int!) {
+export const GET_ARTICLE_DETAIL = gql`
+  query GetArticleDetail($id: Int!) {
     article(where: { id: { _eq: $id } }) {
       id
       title
@@ -210,33 +177,39 @@ export default function ArticleDetail() {
   });
   const classes = useStyles();
   const history = useHistory();
-  const { id } = useParams();
+  const id = Number(useParams<{ id: string }>().id);
   const commentEditorRef = useRef<any>(null);
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(999);
-  const { loading, error, data } = useQuery<ArticleData, ArticleVars>(
-    GET_ARTICLE,
-    { variables: { id: Number(id) } }
-  );
-  const [deleteArticle] = useMutation(DELETE_ARTICLE);
-  const [addComment] = useMutation(ADD_COMMENT, {
+  const { loading, error, data } = useQuery<
+    GetArticleDetailQuery,
+    GetArticleDetailQueryVariables
+  >(GET_ARTICLE_DETAIL, { variables: { id } });
+  const [deleteArticle] = useMutation<
+    DeleteArticleMutation,
+    DeleteArticleMutationVariables
+  >(DELETE_ARTICLE);
+  const [addComment] = useMutation<
+    AddCommentMutation,
+    AddCommentMutationVariables
+  >(ADD_COMMENT, {
     refetchQueries: [
       {
-        query: GET_ARTICLE,
-        variables: { id: Number(id) }
+        query: GET_ARTICLE_DETAIL,
+        variables: { id }
       }
     ]
     // update(cache, { data: { insert_comment } }) {
     //   const newComment = insert_comment.returning[0];
     //   const data = cache.readQuery<ArticleData, ArticleVars>({
     //     query: GET_ARTICLE,
-    //     variables: { id: Number(id) }
+    //     variables: { id }
     //   });
     //   const article = data!.article[0];
     //   article.comments.concat([newComment]);
     //   cache.writeQuery<ArticleData, ArticleVars>({
     //     query: GET_ARTICLE,
-    //     variables: { id: Number(id) },
+    //     variables: { id },
     //     data: { article: [article] }
     //   });
     // }

@@ -15,7 +15,13 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { DeleteForeverOutlined, EditOutlined } from "@material-ui/icons";
 import { Editor, Viewer } from "@toast-ui/react-editor";
-import { GET_ARTICLE } from "../pages/ArticleDetail";
+import {
+  DeleteCommentMutation,
+  DeleteCommentMutationVariables,
+  UpdateCommentMutation,
+  UpdateCommentMutationVariables
+} from "../generated/graphql";
+import { GET_ARTICLE_DETAIL } from "../pages/ArticleDetail";
 import { profileStorage } from "../utils/auth";
 import { formatISODateStringToYYYYMMDDHHMM } from "../utils/util";
 import { useConfirmationDialog } from "./Dialog";
@@ -56,7 +62,7 @@ const useStyles = makeStyles((_: Theme) =>
   })
 );
 
-export const CommentListItem: React.FC<CommentListItemProps> = props => {
+export const CommentListItem = (props: CommentListItemProps) => {
   const { id, articleId, userId, username, text, created_at } = props;
 
   const [
@@ -70,14 +76,20 @@ export const CommentListItem: React.FC<CommentListItemProps> = props => {
   // FIXME: This is not the responsibility of this component
   const refetchQueries = [
     {
-      query: GET_ARTICLE,
+      query: GET_ARTICLE_DETAIL,
       variables: { id: articleId }
     }
   ];
-  const [updateComment] = useMutation(UPDATE_COMMENT, {
+  const [updateComment] = useMutation<
+    UpdateCommentMutation,
+    UpdateCommentMutationVariables
+  >(UPDATE_COMMENT, {
     refetchQueries
   });
-  const [deleteComment] = useMutation(DELETE_COMMENT, {
+  const [deleteComment] = useMutation<
+    DeleteCommentMutation,
+    DeleteCommentMutationVariables
+  >(DELETE_COMMENT, {
     refetchQueries
   });
   const commentEditorRef = useRef<any>(null);

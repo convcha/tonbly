@@ -5,6 +5,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { ArticleEditor, EditingArticle } from "../components/ArticleEditor";
+import {
+  AddArticleMutation,
+  AddArticleMutationVariables,
+  Article_Tag_Insert_Input,
+  Tag_Constraint,
+  Tag_Update_Column
+} from "../generated/graphql";
 
 const ADD_ARTICLE = gql`
   mutation AddArticle(
@@ -59,7 +66,10 @@ export const ArticleNew = () => {
   const classes = useStyles();
   const history = useHistory();
   const [draft, setDraft] = useState({} as EditingArticle);
-  const [addArticle] = useMutation(ADD_ARTICLE);
+  const [addArticle] = useMutation<
+    AddArticleMutation,
+    AddArticleMutationVariables
+  >(ADD_ARTICLE);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<any>(null);
 
@@ -81,20 +91,24 @@ export const ArticleNew = () => {
 
   const onCreateButtonClidk: React.FormEventHandler = async e => {
     e.preventDefault();
-
-    const tagsParam = draft.tags.map(label => ({
-      tag: {
-        data: { label: label },
-        on_conflict: {
-          constraint: "tag_label_key",
-          update_columns: ["for_ignore_update"]
+    const tagsParam: Array<Article_Tag_Insert_Input> = draft.tags.map(
+      label => ({
+        tag: {
+          data: { label: label },
+          on_conflict: {
+            constraint: Tag_Constraint.TagLabelKey,
+            update_columns: [Tag_Update_Column.ForIgnoreUpdate]
+          }
         }
-      }
-    }));
+      })
+    );
     const res = await addArticle({
       variables: { title: draft.title, content: draft.content, tags: tagsParam }
     });
-    const id = res.data.insert_article.returning[0].id;
+    const id = res.data?.insert_article?.returning[0].id;
+    if (id === undefined) {
+      throw new Error("returning id is undefined");
+    }
     history.replace(`/articles/${id}`);
   };
 

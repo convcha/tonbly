@@ -5,31 +5,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
 import { ArticleEditor, EditingArticle } from "../components/ArticleEditor";
+import {
+  Article_Tag_Insert_Input,
+  GetArticleDetailForEditQuery,
+  GetArticleDetailForEditQueryVariables,
+  Tag_Constraint,
+  Tag_Update_Column,
+  UpdateArticleMutation,
+  UpdateArticleMutationVariables
+} from "../generated/graphql";
 
-interface Tag {
-  label: string;
-}
-
-interface TagData {
-  tag: Tag;
-}
-
-interface Article {
-  title: string;
-  content: string;
-  article_tags: TagData[];
-}
-
-interface ArticleData {
-  article: Article[];
-}
-
-interface ArticleVars {
-  id: number;
-}
-
-const GET_ARTICLE = gql`
-  query GetArticle($id: Int!) {
+const GET_ARTICLE_DETAIL_FOR_EDIT = gql`
+  query GetArticleDetailForEdit($id: Int!) {
     article(where: { id: { _eq: $id } }) {
       title
       content
@@ -97,17 +84,20 @@ const useStyles = makeStyles((_: Theme) =>
 
 export const ArticleEdit = () => {
   const classes = useStyles();
-  const { id } = useParams();
+  const id = Number(useParams<{ id: string }>().id);
   const history = useHistory();
   const [draft, setDraft] = useState({} as EditingArticle);
-  const [updateArticle] = useMutation(UPDATE_ARTICLE);
+  const [updateArticle] = useMutation<
+    UpdateArticleMutation,
+    UpdateArticleMutationVariables
+  >(UPDATE_ARTICLE);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<any>(null);
 
-  const { loading, error, data } = useQuery<ArticleData, ArticleVars>(
-    GET_ARTICLE,
-    { variables: { id: Number(id) } }
-  );
+  const { loading, error, data } = useQuery<
+    GetArticleDetailForEditQuery,
+    GetArticleDetailForEditQueryVariables
+  >(GET_ARTICLE_DETAIL_FOR_EDIT, { variables: { id } });
 
   useEffect(() => {
     if (titleInputRef && titleInputRef.current) {
@@ -128,16 +118,18 @@ export const ArticleEdit = () => {
   const onUpdateButtonClidk: React.FormEventHandler = async e => {
     e.preventDefault();
 
-    const tagsParam = draft.tags.map(label => ({
-      article_id: id,
-      tag: {
-        data: { label: label },
-        on_conflict: {
-          constraint: "tag_label_key",
-          update_columns: ["for_ignore_update"]
+    const tagsParam: Array<Article_Tag_Insert_Input> = draft.tags.map(
+      label => ({
+        article_id: id,
+        tag: {
+          data: { label: label },
+          on_conflict: {
+            constraint: Tag_Constraint.TagLabelKey,
+            update_columns: [Tag_Update_Column.ForIgnoreUpdate]
+          }
         }
-      }
-    }));
+      })
+    );
     await updateArticle({
       variables: {
         id,

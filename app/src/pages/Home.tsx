@@ -15,26 +15,10 @@ import gql from "graphql-tag";
 import React from "react";
 import { Link } from "../components/Link";
 import { formatDistance, parseISO } from "date-fns";
+import { GetNewArticlesQuery } from "../generated/graphql";
 
-interface Author {
-  name: string;
-}
-
-interface Article {
-  id: number;
-  title: string;
-  content: string;
-  author_user_id: number;
-  created_at: string;
-  author: Author;
-}
-
-interface ArticleData {
-  article: Article[];
-}
-
-const GET_ARTICLES = gql`
-  query GetArticles {
+const GET_NEW_ARTICLES = gql`
+  query GetNewArticles {
     article(order_by: { created_at: desc }) {
       id
       title
@@ -67,7 +51,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function Home() {
   const classes = useStyles();
-  const { loading, error, data } = useQuery<ArticleData>(GET_ARTICLES);
+  const { loading, error, data } = useQuery<GetNewArticlesQuery>(
+    GET_NEW_ARTICLES
+  );
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
