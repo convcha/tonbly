@@ -54,85 +54,26 @@ const suggestions = [
 const useChipInputStyles = makeStyles((_: Theme) =>
   createStyles({
     root: {
-      // padding: "0px 0px 0px 14px !important",
       height: "35px"
     },
     inputRoot: {
       padding: "0px 0px 0px 14px !important",
-      height: "35px",
-      display: "inline-flex",
-      flexWrap: "wrap",
-      flex: 1,
-      marginTop: 0,
-      minWidth: 70,
-      "&$outlined,&$filled": {
-        boxSizing: "border-box"
-      },
-      "&$outlined": {
-        paddingTop: "0 !important" // 14
-      },
-      "&$filled": {
-        paddingTop: 28
-      }
+      height: "35px"
     },
     input: {
       padding: "0 !important",
-      height: "35px",
-      display: "inline-block",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      appearance: "none", // Remove border in Safari, doesn't seem to break anything in other browsers
-      WebkitTapHighlightColor: "rgba(0,0,0,0)", // Remove mobile color flashing (deprecated style).
-      float: "left",
-      flex: 1
-    },
-    chipContainer: {
-      // padding: "0px 0px 0px 14px !important",
-      height: "35px",
-      display: "flex",
-      flexFlow: "row wrap",
-      cursor: "text",
-      marginBottom: -2,
-      minHeight: 0, // 40
-      "&$labeled&$standard": {
-        marginTop: 18
-      }
-    },
-    label: {
-      top: 4,
-      "&$outlined&:not($labelShrink)": {
-        top: 2,
-        "$marginDense &": {
-          top: 5
-        }
-      },
-      "&$filled&:not($labelShrink)": {
-        top: 15,
-        "$marginDense &": {
-          top: 20
-        }
-      }
-    },
-    helperText: {
-      marginBottom: -20
-    },
-    chip: {
-      margin: "0 8px 8px 0",
-      float: "left"
+      height: "35px"
     }
   })
 );
 
-const ChipInput = (inputProps: any) => {
-  const { value, onChange, chips, ref, ...other } = inputProps;
+const ChipInput = React.forwardRef((inputProps: any, ref: any) => {
+  const { value, onChange, chips, ...other } = inputProps;
   const classes = useChipInputStyles();
 
   return (
     <MuiChipInput
       classes={classes}
-      // className={classes.root}
-      // style={{ height: "9px", minHeight: "9px" }}
       fullWidth
       blurBehavior="add"
       variant="outlined"
@@ -141,7 +82,7 @@ const ChipInput = (inputProps: any) => {
       newChipKeys={[]} // https://github.com/TeamWertarbyte/material-ui-chip-input/pull/305
       onUpdateInput={onChange}
       value={chips}
-      inputRef={ref}
+      ref={ref}
       chipRenderer={(
         {
           value,
@@ -168,11 +109,9 @@ const ChipInput = (inputProps: any) => {
         />
       )}
       {...other}
-      // InputProps={{ size: "small" } as any}
-      size="small"
     />
   );
-};
+});
 
 function renderInput(inputProps: any) {
   return <ChipInput {...inputProps} />;
@@ -267,15 +206,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface TagSelectorProps {
   allowDuplicates: boolean;
+  onValueChange?: (value: string[]) => void;
+  defaultValue?: string[];
 }
 
 export const TagInput = (
   props: TagSelectorProps & InputHTMLAttributes<any>
 ) => {
-  const { allowDuplicates, ...other } = props;
+  const { allowDuplicates, onValueChange, defaultValue, ...other } = props;
   const classes = useStyles();
   const [suggestions, setSuggestions] = useState([] as string[]);
-  const [value, setValue] = useState([] as string[]);
+  const [value, setValue] = useState(defaultValue ?? []);
   const [textFieldInput, setTextFieldInput] = useState("");
 
   const handleSuggestionsFetchRequested = ({ value }: any) => {
@@ -292,15 +233,24 @@ export const TagInput = (
 
   const handleAddChip = (chip: any) => {
     if (allowDuplicates || value.indexOf(chip) < 0) {
-      setValue([...value, chip]);
+      const newValue = [...value, chip];
+      setValue(newValue);
       setTextFieldInput("");
+
+      if (onValueChange) {
+        onValueChange(newValue);
+      }
     }
   };
 
   const handleDeleteChip = (chip: [], index: number) => {
-    const temp = value.slice();
-    temp.splice(index, 1);
-    setValue(temp);
+    const newValue = value.slice();
+    newValue.splice(index, 1);
+    setValue(newValue);
+
+    if (onValueChange) {
+      onValueChange(newValue);
+    }
   };
 
   // noinspection JSUnusedGlobalSymbols

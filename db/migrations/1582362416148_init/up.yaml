@@ -1,0 +1,335 @@
+- args:
+    tables:
+      - array_relationships:
+          - name: article_tags
+            using:
+              foreign_key_constraint_on:
+                column: article_id
+                table:
+                  name: article_tag
+                  schema: public
+          - name: comments
+            using:
+              foreign_key_constraint_on:
+                column: article_id
+                table:
+                  name: comment
+                  schema: public
+        delete_permissions:
+          - permission:
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              filter:
+                author_user_id:
+                  _eq: X-Hasura-User-Id
+            role: tonbly-user
+        insert_permissions:
+          - permission:
+              check: {}
+              columns:
+                - content
+                - title
+              set:
+                author_user_id: X-Hasura-User-Id
+            role: tonbly-admin
+          - permission:
+              check: {}
+              columns:
+                - content
+                - title
+              set:
+                author_user_id: X-Hasura-User-Id
+            role: tonbly-user
+        object_relationships:
+          - name: author
+            using:
+              foreign_key_constraint_on: author_user_id
+        select_permissions:
+          - permission:
+              allow_aggregations: true
+              columns:
+                - author_user_id
+                - content
+                - created_at
+                - id
+                - title
+                - updated_at
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              allow_aggregations: true
+              columns:
+                - author_user_id
+                - content
+                - created_at
+                - id
+                - title
+                - updated_at
+              filter: {}
+            role: tonbly-user
+        table:
+          name: article
+          schema: public
+        update_permissions:
+          - permission:
+              columns:
+                - content
+                - title
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              columns:
+                - content
+                - title
+              filter:
+                author_user_id:
+                  _eq: X-Hasura-User-Id
+            role: tonbly-user
+      - delete_permissions:
+          - permission:
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              filter:
+                article:
+                  author_user_id:
+                    _eq: X-Hasura-User-Id
+            role: tonbly-user
+        insert_permissions:
+          - permission:
+              check: {}
+              columns:
+                - article_id
+                - tag_id
+            role: tonbly-admin
+          - permission:
+              check:
+                article:
+                  author_user_id:
+                    _eq: X-Hasura-User-Id
+              columns:
+                - article_id
+                - tag_id
+            role: tonbly-user
+        object_relationships:
+          - name: article
+            using:
+              foreign_key_constraint_on: article_id
+          - name: tag
+            using:
+              foreign_key_constraint_on: tag_id
+        select_permissions:
+          - permission:
+              columns:
+                - article_id
+                - tag_id
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              columns:
+                - article_id
+                - tag_id
+              filter: {}
+            role: tonbly-user
+        table:
+          name: article_tag
+          schema: public
+        update_permissions:
+          - permission:
+              columns:
+                - article_id
+                - tag_id
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              columns:
+                - article_id
+                - tag_id
+              filter:
+                article:
+                  author_user_id:
+                    _eq: X-Hasura-User-Id
+            role: tonbly-user
+      - delete_permissions:
+          - permission:
+              filter:
+                comment_user_id:
+                  _eq: X-Hasura-User-Id
+            role: tonbly-admin
+          - permission:
+              filter:
+                _or:
+                  - comment_user_id:
+                      _eq: X-Hasura-User-Id
+                  - article:
+                      author_user_id:
+                        _eq: X-Hasura-User-Id
+            role: tonbly-user
+        insert_permissions:
+          - permission:
+              check: {}
+              columns:
+                - article_id
+                - text
+              set:
+                comment_user_id: x-hasura-User-Id
+            role: tonbly-admin
+          - permission:
+              check: {}
+              columns:
+                - article_id
+                - text
+              set:
+                comment_user_id: x-hasura-User-Id
+            role: tonbly-user
+        object_relationships:
+          - name: article
+            using:
+              foreign_key_constraint_on: article_id
+          - name: user
+            using:
+              foreign_key_constraint_on: comment_user_id
+        select_permissions:
+          - permission:
+              allow_aggregations: true
+              columns:
+                - article_id
+                - comment_user_id
+                - id
+                - text
+                - created_at
+                - updated_at
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              allow_aggregations: true
+              columns:
+                - article_id
+                - comment_user_id
+                - id
+                - text
+                - created_at
+                - updated_at
+              filter: {}
+            role: tonbly-user
+        table:
+          name: comment
+          schema: public
+        update_permissions:
+          - permission:
+              columns:
+                - text
+              filter:
+                comment_user_id:
+                  _eq: X-Hasura-User-Id
+            role: tonbly-admin
+          - permission:
+              columns:
+                - text
+              filter:
+                comment_user_id:
+                  _eq: X-Hasura-User-Id
+            role: tonbly-user
+      - array_relationships:
+          - name: tag_articles
+            using:
+              foreign_key_constraint_on:
+                column: tag_id
+                table:
+                  name: article_tag
+                  schema: public
+        delete_permissions:
+          - permission:
+              filter: {}
+            role: tonbly-admin
+        insert_permissions:
+          - permission:
+              check: {}
+              columns:
+                - label
+            role: tonbly-admin
+          - permission:
+              check: {}
+              columns:
+                - label
+            role: tonbly-user
+        select_permissions:
+          - permission:
+              allow_aggregations: true
+              columns:
+                - id
+                - label
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              allow_aggregations: true
+              columns:
+                - id
+                - label
+              filter: {}
+            role: tonbly-user
+        table:
+          name: tag
+          schema: public
+        update_permissions:
+          - permission:
+              columns:
+                - for_ignore_update
+                - label
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              columns:
+                - for_ignore_update
+              filter: {}
+            role: tonbly-user
+      - array_relationships:
+          - name: articles
+            using:
+              foreign_key_constraint_on:
+                column: author_user_id
+                table:
+                  name: article
+                  schema: public
+        delete_permissions:
+          - permission:
+              filter: {}
+            role: tonbly-admin
+        select_permissions:
+          - permission:
+              allow_aggregations: true
+              columns:
+                - id
+                - role
+                - name
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              allow_aggregations: true
+              columns:
+                - id
+                - name
+              filter: {}
+            role: tonbly-user
+        table:
+          name: user
+          schema: public
+        update_permissions:
+          - permission:
+              columns:
+                - email
+                - name
+                - role
+              filter: {}
+            role: tonbly-admin
+          - permission:
+              columns:
+                - email
+                - name
+              filter:
+                id:
+                  _eq: X-Hasura-User-Id
+            role: tonbly-user
+    version: 2
+  type: replace_metadata
