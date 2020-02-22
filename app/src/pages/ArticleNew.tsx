@@ -1,4 +1,3 @@
-import { useMutation } from "@apollo/react-hooks";
 import { Button } from "@material-ui/core";
 import gql from "graphql-tag";
 import React, { useEffect, useRef, useState } from "react";
@@ -6,14 +5,13 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { ArticleEditor, EditingArticle } from "../components/ArticleEditor";
 import {
-  AddArticleMutation,
-  AddArticleMutationVariables,
   Article_Tag_Insert_Input,
   Tag_Constraint,
-  Tag_Update_Column
+  Tag_Update_Column,
+  useAddArticleMutation
 } from "../generated/graphql";
 
-const ADD_ARTICLE = gql`
+gql`
   mutation AddArticle(
     $title: String!
     $content: String!
@@ -66,10 +64,7 @@ export const ArticleNew = () => {
   const classes = useStyles();
   const history = useHistory();
   const [draft, setDraft] = useState({} as EditingArticle);
-  const [addArticle] = useMutation<
-    AddArticleMutation,
-    AddArticleMutationVariables
-  >(ADD_ARTICLE);
+  const [addArticle] = useAddArticleMutation();
   const titleInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<any>(null);
 

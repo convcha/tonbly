@@ -1,4 +1,3 @@
-import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Button } from "@material-ui/core";
 import gql from "graphql-tag";
 import React, { useEffect, useRef, useState } from "react";
@@ -7,15 +6,13 @@ import { useHistory, useParams } from "react-router-dom";
 import { ArticleEditor, EditingArticle } from "../components/ArticleEditor";
 import {
   Article_Tag_Insert_Input,
-  GetArticleDetailForEditQuery,
-  GetArticleDetailForEditQueryVariables,
   Tag_Constraint,
   Tag_Update_Column,
-  UpdateArticleMutation,
-  UpdateArticleMutationVariables
+  useGetArticleDetailForEditQuery,
+  useUpdateArticleMutation
 } from "../generated/graphql";
 
-const GET_ARTICLE_DETAIL_FOR_EDIT = gql`
+gql`
   query GetArticleDetailForEdit($id: Int!) {
     article(where: { id: { _eq: $id } }) {
       title
@@ -29,7 +26,7 @@ const GET_ARTICLE_DETAIL_FOR_EDIT = gql`
   }
 `;
 
-const UPDATE_ARTICLE = gql`
+gql`
   mutation UpdateArticle(
     $id: Int!
     $title: String!
@@ -87,17 +84,13 @@ export const ArticleEdit = () => {
   const id = Number(useParams<{ id: string }>().id);
   const history = useHistory();
   const [draft, setDraft] = useState({} as EditingArticle);
-  const [updateArticle] = useMutation<
-    UpdateArticleMutation,
-    UpdateArticleMutationVariables
-  >(UPDATE_ARTICLE);
+  const [updateArticle] = useUpdateArticleMutation();
   const titleInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<any>(null);
 
-  const { loading, error, data } = useQuery<
-    GetArticleDetailForEditQuery,
-    GetArticleDetailForEditQueryVariables
-  >(GET_ARTICLE_DETAIL_FOR_EDIT, { variables: { id } });
+  const { loading, error, data } = useGetArticleDetailForEditQuery({
+    variables: { id }
+  });
 
   useEffect(() => {
     if (titleInputRef && titleInputRef.current) {
