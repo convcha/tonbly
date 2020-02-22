@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
-import { Editor } from "@toast-ui/react-editor";
+import { Editor } from "./Editor";
 import { TagInput } from "./TagInput";
 
 export interface EditingArticle {
@@ -106,28 +106,11 @@ export const ArticleEditor = (props: ArticleEditorProps) => {
       <div className={classes.body}>
         <Editor
           ref={editorRef}
-          usageStatistics={false}
           onChange={onContentChange}
           previewStyle="vertical"
           height="100%"
-          initialEditType="markdown"
           initialValue={content}
           placeholder="本文"
-          useCommandShortcut={true}
-          exts={[
-            {
-              name: "chart",
-              minWidth: 100,
-              maxWidth: 600,
-              minHeight: 100,
-              maxHeight: 300
-            },
-            "scrollSync",
-            "colorSyntax",
-            "uml",
-            "mark",
-            "table"
-          ]}
         />
       </div>
     </>
