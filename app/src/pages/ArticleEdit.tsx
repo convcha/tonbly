@@ -108,6 +108,10 @@ export const ArticleEdit = () => {
     setDraft(value);
   };
 
+  const onCancelButtonClick: React.FormEventHandler = e => {
+    history.replace(`/articles/${id}`);
+  };
+
   const onUpdateButtonClidk: React.FormEventHandler = async e => {
     e.preventDefault();
 
@@ -149,6 +153,13 @@ export const ArticleEdit = () => {
     <form className={classes.container}>
       <ArticleEditor defaultValue={defaultValue} onChange={onDraftChange} />
       <div className={classes.editorFooter}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={onCancelButtonClick}
+        >
+          キャンセル
+        </Button>
         <Button variant="outlined" color="secondary">
           下書き保存
         </Button>
