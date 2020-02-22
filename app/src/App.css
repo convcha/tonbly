@@ -43,7 +43,9 @@
   font-size: 0.95em !important;
 }
 
-.tui-editor-contents :not(pre) code {
+.tui-editor-contents p code,
+.tui-editor-contents li code,
+.tui-editor-contents table code {
   color: #333 !important;
   background-color: #eee !important;
   padding: 0.1em 0.4em !important;
