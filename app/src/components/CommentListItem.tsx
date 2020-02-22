@@ -13,7 +13,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { DeleteForeverOutlined, EditOutlined } from "@material-ui/icons";
-import { Editor, Viewer } from "@toast-ui/react-editor";
 import {
   GetArticleDetailDocument,
   useDeleteCommentMutation,
@@ -22,6 +21,7 @@ import {
 import { profileStorage } from "../utils/auth";
 import { formatISODateStringToYYYYMMDDHHMM } from "../utils/util";
 import { useConfirmationDialog } from "./Dialog";
+import { Editor, Viewer } from "./Editor";
 import { Link } from "./Link";
 
 interface CommentListItemProps {
@@ -121,26 +121,10 @@ export const CommentListItem = (props: CommentListItemProps) => {
         {isEditing ? (
           <div>
             <Editor
-              usageStatistics={false}
               ref={commentEditorRef}
               initialValue={text}
               height="250px"
               placeholder="コメントを入力してください"
-              useCommandShortcut={true}
-              exts={[
-                {
-                  name: "chart",
-                  minWidth: 100,
-                  maxWidth: 600,
-                  minHeight: 100,
-                  maxHeight: 300
-                },
-                "scrollSync",
-                "colorSyntax",
-                "uml",
-                "mark",
-                "table"
-              ]}
             />
             <div
               className={classes.editorFooter}
@@ -238,25 +222,7 @@ export const CommentListItem = (props: CommentListItemProps) => {
                     {formatISODateStringToYYYYMMDDHHMM(created_at)}
                   </Link>
                 </Typography>
-                <Viewer
-                  usageStatistics={false}
-                  language="ja"
-                  initialValue={text}
-                  exts={[
-                    {
-                      name: "chart",
-                      minWidth: 100,
-                      maxWidth: 600,
-                      minHeight: 100,
-                      maxHeight: 300
-                    },
-                    "scrollSync",
-                    "colorSyntax",
-                    "uml",
-                    "mark",
-                    "table"
-                  ]}
-                />
+                <Viewer initialValue={text} />
               </div>
             }
           />

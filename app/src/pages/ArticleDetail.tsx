@@ -12,20 +12,11 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
 import { CommentListItem } from "../components/CommentListItem";
 import { useConfirmationDialog } from "../components/Dialog";
+import { Editor, Viewer } from "../components/Editor";
 import { Link } from "../components/Link";
 import { Ribbon } from "../components/Ribbon";
 import { TagLink } from "../components/Tag";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
-import "codemirror/lib/codemirror.css";
-import "tui-editor/dist/tui-editor.min.css";
-import "tui-editor/dist/tui-editor-contents.min.css";
-import "highlight.js/styles/gml.css";
-import "tui-editor/dist/tui-editor-extScrollSync";
-import "tui-editor/dist/tui-editor-extColorSyntax";
-import "tui-editor/dist/tui-editor-extUML";
-import "tui-editor/dist/tui-editor-extChart";
-import "tui-editor/dist/tui-editor-extTable";
-import { Editor, Viewer } from "@toast-ui/react-editor";
 import {
   GetArticleDetailDocument,
   useAddCommentMutation,
@@ -307,30 +298,7 @@ export default function ArticleDetail() {
               <TagLink key={tag.tag.label} label={tag.tag.label} to="/" />
             ))}
           </div>
-          <Viewer
-            usageStatistics={false}
-            language="ja"
-            initialValue={article.content}
-            // previewStyle="vertical"
-            // height="600px"
-            // width="800px"
-            // initialEditType="markdown"
-            useCommandShortcut={true}
-            exts={[
-              {
-                name: "chart",
-                minWidth: 100,
-                maxWidth: 600,
-                minHeight: 100,
-                maxHeight: 300
-              },
-              "scrollSync",
-              "colorSyntax",
-              "uml",
-              "mark",
-              "table"
-            ]}
-          />
+          <Viewer initialValue={article.content} />
         </Box>
       </Container>
       <footer className={classes.footer}>
@@ -369,29 +337,9 @@ export default function ArticleDetail() {
               </Typography>
             </Grid>
             <Editor
-              usageStatistics={false}
               ref={commentEditorRef}
-              // language="ja"
-              // previewStyle="vertical"
               height="250px"
-              // width="800px"
-              // initialEditType="markdown"
               placeholder="コメントを入力してください"
-              useCommandShortcut={true}
-              exts={[
-                {
-                  name: "chart",
-                  minWidth: 100,
-                  maxWidth: 600,
-                  minHeight: 100,
-                  maxHeight: 300
-                },
-                "scrollSync",
-                "colorSyntax",
-                "uml",
-                "mark",
-                "table"
-              ]}
             />
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
