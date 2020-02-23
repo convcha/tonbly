@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Container, Typography } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
 import gql from "graphql-tag";
 import { ArticleList } from "../components/ArticleList";
+import { ListPageLayout } from "../components/ListPageLayout";
 import { useGetNewArticlesQuery } from "../generated/graphql";
 
 gql`
@@ -13,25 +13,7 @@ gql`
   }
 `;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      [theme.breakpoints.up("md")]: {
-        paddingLeft: "190px",
-        paddingRight: "190px"
-      }
-    },
-    list: {
-      backgroundColor: theme.palette.background.paper
-    },
-    avatar: {
-      marginRight: theme.spacing(1)
-    }
-  })
-);
-
 export function Home() {
-  const classes = useStyles();
   const { loading, error, data } = useGetNewArticlesQuery();
 
   if (loading) return <p>Loading...</p>;
@@ -39,13 +21,11 @@ export function Home() {
   if (!data) return <p>Data not found :(</p>;
 
   return (
-    <Container maxWidth="md" className={classes.container}>
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          新着記事
-        </Typography>
-        <ArticleList articles={data.article} />
-      </Box>
-    </Container>
+    <ListPageLayout>
+      <Typography variant="h4" component="h1" gutterBottom>
+        新着記事
+      </Typography>
+      <ArticleList articles={data.article} />
+    </ListPageLayout>
   );
 }

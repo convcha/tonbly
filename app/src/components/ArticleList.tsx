@@ -128,7 +128,7 @@ export const ArticleList = (props: ArticleListProps) => {
                     {article.article_tags.map(tag => (
                       <Link
                         key={tag.tag.id}
-                        to="/"
+                        to={`/tags/${encodeURIComponent(tag.tag.label)}`}
                         color="inherit"
                         style={{ marginLeft: "5px" }}
                       >
