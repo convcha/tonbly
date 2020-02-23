@@ -9,6 +9,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { ChatBubbleOutline, LocalOfferOutlined } from "@material-ui/icons";
 import { ja } from "date-fns/locale";
 import gql from "graphql-tag";
 import React from "react";
@@ -26,6 +27,17 @@ gql`
       created_at
       author {
         name
+      }
+      article_tags {
+        tag {
+          id
+          label
+        }
+      }
+      comments_aggregate {
+        aggregate {
+          count(columns: [id])
+        }
       }
     }
   }
@@ -54,6 +66,7 @@ export function Home() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
+  if (!data) return <p>Data not found :(</p>;
 
   const now = new Date();
 
@@ -68,13 +81,14 @@ export function Home() {
           className={classes.list}
         >
           <Divider />
-          {data?.article.map(article => (
+          {data.article.map(article => (
             <div key={article.id}>
-              <ListItem dense>
+              <ListItem style={{ display: "flex", alignItems: "flex-start" }}>
                 <Link
                   to={`/articles/${article.id}`}
                   key={article.id}
                   color="inherit"
+                  style={{ marginTop: "6px" }}
                 >
                   <Avatar src={"avatar.jpg"} className={classes.avatar} />
                 </Link>
@@ -91,19 +105,56 @@ export function Home() {
                   primaryTypographyProps={{ variant: "subtitle1" }}
                   secondary={
                     <>
-                      <Link
-                        to={`/articles/${article.id}`}
-                        key={article.id}
-                        color="inherit"
+                      <span
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          alignItems: "center"
+                        }}
                       >
-                        {article.author.name}
-                      </Link>
-                      <span style={{ marginLeft: "10px" }}>
-                        {formatDistance(parseISO(article.created_at), now, {
-                          locale: ja,
-                          includeSeconds: true
-                        })}
-                        前
+                        <Link
+                          to={`/articles/${article.id}`}
+                          key={article.id}
+                          color="inherit"
+                        >
+                          {article.author.name}
+                        </Link>
+                        <span style={{ marginLeft: "10px" }}>
+                          {formatDistance(parseISO(article.created_at), now, {
+                            locale: ja,
+                            includeSeconds: true
+                          })}
+                          前
+                        </span>
+                        <ChatBubbleOutline
+                          fontSize="small"
+                          style={{
+                            width: "14px",
+                            height: "14px",
+                            marginLeft: "10px"
+                          }}
+                        />
+                        <span style={{ marginLeft: "2px" }}>
+                          {article.comments_aggregate.aggregate?.count}
+                        </span>
+                        <LocalOfferOutlined
+                          fontSize="small"
+                          style={{
+                            width: "14px",
+                            height: "14px",
+                            marginLeft: "10px"
+                          }}
+                        />
+                        {article.article_tags.map(tag => (
+                          <Link
+                            key={tag.tag.id}
+                            to="/"
+                            color="inherit"
+                            style={{ marginLeft: "5px" }}
+                          >
+                            {tag.tag.label}
+                          </Link>
+                        ))}
                       </span>
                     </>
                   }
