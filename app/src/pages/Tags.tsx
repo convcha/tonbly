@@ -5,11 +5,22 @@ import gql from "graphql-tag";
 import { ArticleList } from "../components/ArticleList";
 import { ListPageLayout } from "../components/ListPageLayout";
 import { useGetTagArticlesQuery } from "../generated/graphql";
+import { maxItemsPerPage } from "../utils/constants";
+import { useQuery } from "../utils/util";
 
 gql`
-  query GetTagArticles($label: String!) {
+  query GetTagArticles($limit: Int!, $offset: Int!, $label: String!) {
+    article_aggregate(
+      where: { article_tags: { tag: { label: { _eq: $label } } } }
+    ) {
+      aggregate {
+        count(columns: [id])
+      }
+    }
     article(
       where: { article_tags: { tag: { label: { _eq: $label } } } }
+      limit: $limit
+      offset: $offset
       order_by: { created_at: desc }
     ) {
       ...ArticleList
@@ -18,6 +29,8 @@ gql`
 `;
 
 export function Tags() {
+  const query = useQuery();
+  const page = parseInt(query.get("page") ?? "1", 10);
   const params = useParams<{ label: string }>();
   const label = decodeURIComponent(params.label);
 
@@ -26,7 +39,11 @@ export function Tags() {
   }, [label]);
 
   const { loading, error, data } = useGetTagArticlesQuery({
-    variables: { label }
+    variables: {
+      label,
+      limit: maxItemsPerPage,
+      offset: maxItemsPerPage * (page - 1)
+    }
   });
 
   if (loading) return <p>Loading...</p>;
@@ -38,7 +55,10 @@ export function Tags() {
       <Typography variant="h4" component="h1" gutterBottom>
         {label} に関する記事
       </Typography>
-      <ArticleList articles={data.article} />
+      <ArticleList
+        articles={data.article}
+        totalCount={data?.article_aggregate?.aggregate?.count ?? 0}
+      />
     </ListPageLayout>
   );
 }
