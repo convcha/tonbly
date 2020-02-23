@@ -295,7 +295,7 @@ export default function ArticleDetail() {
           </Typography>
           <div className={classes.tags}>
             {article.article_tags.map(tag => (
-              <TagLink key={tag.tag.label} label={tag.tag.label} to="/" />
+              <TagLink key={tag.tag.label} label={tag.tag.label} />
             ))}
           </div>
           <Viewer initialValue={article.content} />
