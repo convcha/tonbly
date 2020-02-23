@@ -12,10 +12,13 @@ import { ChatBubbleOutline, LocalOfferOutlined } from "@material-ui/icons";
 import { formatDistance, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
 import { ArticleListFragment } from "../generated/graphql";
+import { maxItemsPerPage } from "../utils/constants";
 import { Link } from "./Link";
+import { PaginationLink } from "./PaginationLink";
 
 interface ArticleListProps {
   articles: ArticleListFragment[];
+  totalCount: number;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     avatar: {
       marginRight: theme.spacing(1)
+    },
+    paginationUl: {
+      justifyContent: "center"
     }
   })
 );
@@ -54,95 +60,111 @@ gql`
 `;
 
 export const ArticleList = (props: ArticleListProps) => {
-  const { articles } = props;
+  const { articles, totalCount } = props;
   const classes = useStyles();
   const now = new Date();
 
+  const totalNumberOfPages = Math.ceil(totalCount / maxItemsPerPage);
+
   return (
-    <List className={classes.container}>
-      <Divider />
-      {articles.map(article => (
-        <div key={article.id}>
-          <ListItem style={{ display: "flex", alignItems: "flex-start" }}>
-            <Link
-              to={`/articles/${article.id}`}
-              key={article.id}
-              color="inherit"
-              style={{ marginTop: "6px" }}
-            >
-              <Avatar src={"avatar.jpg"} className={classes.avatar} />
-            </Link>
-            <ListItemText
-              primary={
-                <Link
-                  to={`/articles/${article.id}`}
-                  key={article.id}
-                  color="inherit"
-                >
-                  {article.title}
-                </Link>
-              }
-              primaryTypographyProps={{ variant: "subtitle1" }}
-              secondary={
-                <>
-                  <span
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center"
-                    }}
+    <div
+      className={classes.container}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+      }}
+    >
+      <List>
+        <Divider />
+        {articles.map(article => (
+          <div key={article.id}>
+            <ListItem style={{ display: "flex", alignItems: "flex-start" }}>
+              <Link
+                to={`/articles/${article.id}`}
+                key={article.id}
+                color="inherit"
+                style={{ marginTop: "6px" }}
+              >
+                <Avatar src={"avatar.jpg"} className={classes.avatar} />
+              </Link>
+              <ListItemText
+                primary={
+                  <Link
+                    to={`/articles/${article.id}`}
+                    key={article.id}
+                    color="inherit"
                   >
-                    <Link
-                      to={`/articles/${article.id}`}
-                      key={article.id}
-                      color="inherit"
+                    {article.title}
+                  </Link>
+                }
+                primaryTypographyProps={{ variant: "subtitle1" }}
+                secondary={
+                  <>
+                    <span
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        alignItems: "center"
+                      }}
                     >
-                      {article.author.name}
-                    </Link>
-                    <span style={{ marginLeft: "10px" }}>
-                      {formatDistance(parseISO(article.created_at), now, {
-                        locale: ja,
-                        includeSeconds: true
-                      })}
-                      前
-                    </span>
-                    <ChatBubbleOutline
-                      fontSize="small"
-                      style={{
-                        width: "14px",
-                        height: "14px",
-                        marginLeft: "10px"
-                      }}
-                    />
-                    <span style={{ marginLeft: "2px" }}>
-                      {article.comments_aggregate.aggregate?.count}
-                    </span>
-                    <LocalOfferOutlined
-                      fontSize="small"
-                      style={{
-                        width: "14px",
-                        height: "14px",
-                        marginLeft: "10px"
-                      }}
-                    />
-                    {article.article_tags.map(tag => (
                       <Link
-                        key={tag.tag.id}
-                        to={`/tags/${encodeURIComponent(tag.tag.label)}`}
+                        to={`/articles/${article.id}`}
+                        key={article.id}
                         color="inherit"
-                        style={{ marginLeft: "5px" }}
                       >
-                        {tag.tag.label}
+                        {article.author.name}
                       </Link>
-                    ))}
-                  </span>
-                </>
-              }
-            />
-          </ListItem>
-          <Divider />
+                      <span style={{ marginLeft: "10px" }}>
+                        {formatDistance(parseISO(article.created_at), now, {
+                          locale: ja,
+                          includeSeconds: true
+                        })}
+                        前
+                      </span>
+                      <ChatBubbleOutline
+                        fontSize="small"
+                        style={{
+                          width: "14px",
+                          height: "14px",
+                          marginLeft: "10px"
+                        }}
+                      />
+                      <span style={{ marginLeft: "2px" }}>
+                        {article.comments_aggregate.aggregate?.count}
+                      </span>
+                      <LocalOfferOutlined
+                        fontSize="small"
+                        style={{
+                          width: "14px",
+                          height: "14px",
+                          marginLeft: "10px"
+                        }}
+                      />
+                      {article.article_tags.map(tag => (
+                        <Link
+                          key={tag.tag.id}
+                          to={`/tags/${encodeURIComponent(tag.tag.label)}`}
+                          color="inherit"
+                          style={{ marginLeft: "5px" }}
+                        >
+                          {tag.tag.label}
+                        </Link>
+                      ))}
+                    </span>
+                  </>
+                }
+              />
+            </ListItem>
+            <Divider />
+          </div>
+        ))}
+      </List>
+      {totalNumberOfPages > 1 && (
+        <div style={{ marginTop: "30px" }}>
+          <PaginationLink totalNumberOfPages={totalNumberOfPages} />
         </div>
-      ))}
-    </List>
+      )}
+    </div>
   );
 };

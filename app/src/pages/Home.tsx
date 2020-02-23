@@ -4,17 +4,31 @@ import gql from "graphql-tag";
 import { ArticleList } from "../components/ArticleList";
 import { ListPageLayout } from "../components/ListPageLayout";
 import { useGetNewArticlesQuery } from "../generated/graphql";
+import { maxItemsPerPage } from "../utils/constants";
+import { useQuery } from "../utils/util";
 
 gql`
-  query GetNewArticles {
-    article(order_by: { created_at: desc }) {
+  query GetNewArticles($limit: Int!, $offset: Int!) {
+    article_aggregate {
+      aggregate {
+        count(columns: [id])
+      }
+    }
+    article(limit: $limit, offset: $offset, order_by: { created_at: desc }) {
       ...ArticleList
     }
   }
 `;
 
 export function Home() {
-  const { loading, error, data } = useGetNewArticlesQuery();
+  const query = useQuery();
+  const page = parseInt(query.get("page") ?? "1", 10);
+  const { loading, error, data } = useGetNewArticlesQuery({
+    variables: {
+      limit: maxItemsPerPage,
+      offset: maxItemsPerPage * (page - 1)
+    }
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -25,7 +39,10 @@ export function Home() {
       <Typography variant="h4" component="h1" gutterBottom>
         新着記事
       </Typography>
-      <ArticleList articles={data.article} />
+      <ArticleList
+        articles={data.article}
+        totalCount={data?.article_aggregate?.aggregate?.count ?? 0}
+      />
     </ListPageLayout>
   );
 }
