@@ -9,7 +9,6 @@ import {
   ListItemAvatar,
   ListItemText
 } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { DeleteForeverOutlined, EditOutlined } from "@material-ui/icons";
@@ -20,6 +19,7 @@ import {
 } from "../generated/graphql";
 import { profileStorage } from "../utils/auth";
 import { formatISODateStringToYYYYMMDDHHMM } from "../utils/util";
+import { Avatar } from "./Avatar";
 import { useConfirmationDialog } from "./Dialog";
 import { Editor, Viewer } from "./Editor";
 import { Link } from "./Link";
@@ -123,9 +123,7 @@ export const CommentListItem = (props: CommentListItemProps) => {
       {DeleteConfirmationDialog()}
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Link to="/">
-            <Avatar alt={username} src={profileImageUrl ?? ""} />
-          </Link>
+          <Avatar username={username} profileImageUrl={profileImageUrl} />
         </ListItemAvatar>
         {isEditing ? (
           <div>

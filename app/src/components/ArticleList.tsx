@@ -1,18 +1,13 @@
 import React from "react";
 import gql from "graphql-tag";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import {
-  Avatar,
-  Divider,
-  List,
-  ListItem,
-  ListItemText
-} from "@material-ui/core";
+import { Divider, List, ListItem, ListItemText } from "@material-ui/core";
 import { ChatBubbleOutline, LocalOfferOutlined } from "@material-ui/icons";
 import { formatDistance, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
 import { ArticleListFragment } from "../generated/graphql";
 import { maxItemsPerPage } from "../utils/constants";
+import { Avatar } from "./Avatar";
 import { Link } from "./Link";
 import { PaginationLink } from "./PaginationLink";
 
@@ -43,6 +38,7 @@ gql`
     author_user_id
     created_at
     author {
+      username
       name
       profile_image_url
     }
@@ -81,17 +77,12 @@ export const ArticleList = (props: ArticleListProps) => {
         {articles.map(article => (
           <div key={article.id}>
             <ListItem style={{ display: "flex", alignItems: "flex-start" }}>
-              <Link
-                to={`/articles/${article.id}`}
-                key={article.id}
-                color="inherit"
-                style={{ marginTop: "6px" }}
-              >
-                <Avatar
-                  src={article.author.profile_image_url ?? ""}
-                  className={classes.avatar}
-                />
-              </Link>
+              <Avatar
+                className={{ root: classes.avatar }}
+                style={{ root: { marginTop: "6px" } }}
+                username={article.author.username}
+                profileImageUrl={article.author.profile_image_url}
+              />
               <ListItemText
                 primary={
                   <Link

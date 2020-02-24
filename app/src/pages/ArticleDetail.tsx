@@ -4,12 +4,12 @@ import Fab from "@material-ui/core/Fab";
 import { DeleteForeverOutlined, EditOutlined } from "@material-ui/icons";
 import gql from "graphql-tag";
 import React, { useRef, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
+import { Avatar } from "../components/Avatar";
 import { CommentListItem } from "../components/CommentListItem";
 import { useConfirmationDialog } from "../components/Dialog";
 import { Editor, Viewer } from "../components/Editor";
@@ -35,6 +35,7 @@ gql`
       author_user_id
       created_at
       author {
+        username
         name
         profile_image_url
       }
@@ -51,6 +52,7 @@ gql`
         updated_at
         user {
           id
+          username
           name
           profile_image_url
         }
@@ -234,13 +236,11 @@ export default function ArticleDetail() {
             wrap="nowrap"
           >
             <Grid container alignItems="center">
-              <Link to="/" underline="none" color="inherit">
-                <Avatar
-                  alt="devilune"
-                  src={article.author.profile_image_url ?? ""}
-                  className={classes.avatar}
-                />
-              </Link>
+              <Avatar
+                username={article.author.username}
+                profileImageUrl={article.author.profile_image_url}
+                className={{ avatar: classes.avatar }}
+              />
               <div>
                 <Link to="/" color="inherit">
                   <Typography>{article.author.name}</Typography>
@@ -331,9 +331,9 @@ export default function ArticleDetail() {
               style={{ marginBottom: "10px" }}
             >
               <Avatar
-                alt="devilune"
-                src="/avatar.jpg"
-                className={classes.commentAvatar}
+                link={false}
+                username={article.author.username}
+                className={{ avatar: classes.commentAvatar }}
               />
               <Typography style={{ marginLeft: "10px" }}>
                 コメントを投稿する
