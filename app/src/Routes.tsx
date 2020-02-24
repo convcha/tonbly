@@ -4,6 +4,7 @@ import ArticleDetail from "./pages/ArticleDetail";
 import { ArticleEdit } from "./pages/ArticleEdit";
 import { ArticleNew } from "./pages/ArticleNew";
 import { Tags } from "./pages/Tags";
+import { UserProfile } from "./pages/UserProfile";
 import { useAuth } from "./utils/auth";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
@@ -21,6 +22,9 @@ export const Routes = () => (
     </PrivateRoute>
     <PrivateRoute path="/articles/:id">
       <ArticleDetail />
+    </PrivateRoute>
+    <PrivateRoute path="/users/:username">
+      <UserProfile />
     </PrivateRoute>
     <PrivateRoute path="/tags/:label">
       <Tags />
