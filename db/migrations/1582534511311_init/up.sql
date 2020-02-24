@@ -64,7 +64,8 @@ CREATE TABLE public."user" (
     email text NOT NULL,
     password text NOT NULL,
     role text NOT NULL,
-    salt text NOT NULL
+    salt text NOT NULL,
+    profile_image_url text
 );
 CREATE SEQUENCE public.user_id_seq
     AS integer
@@ -97,7 +98,7 @@ COMMENT ON TRIGGER set_public_article_updated_at ON public.article IS 'trigger t
 CREATE TRIGGER set_public_comment_updated_at BEFORE UPDATE ON public.comment FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
 COMMENT ON TRIGGER set_public_comment_updated_at ON public.comment IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 ALTER TABLE ONLY public.article
-    ADD CONSTRAINT article_author_user_id_fkey FOREIGN KEY (author_user_id) REFERENCES public."user"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT article_author_user_id_fkey FOREIGN KEY (author_user_id) REFERENCES public."user"(id) ON UPDATE RESTRICT ON DELETE CASCADE;
 ALTER TABLE ONLY public.article_tag
     ADD CONSTRAINT article_tag_article_id_fkey FOREIGN KEY (article_id) REFERENCES public.article(id) ON UPDATE RESTRICT ON DELETE CASCADE;
 ALTER TABLE ONLY public.article_tag

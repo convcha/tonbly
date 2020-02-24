@@ -36,6 +36,7 @@ gql`
       created_at
       author {
         name
+        profile_image_url
       }
       article_tags {
         tag {
@@ -51,6 +52,7 @@ gql`
         user {
           id
           name
+          profile_image_url
         }
       }
     }
@@ -235,7 +237,7 @@ export default function ArticleDetail() {
               <Link to="/" underline="none" color="inherit">
                 <Avatar
                   alt="devilune"
-                  src="/avatar.jpg"
+                  src={article.author.profile_image_url ?? ""}
                   className={classes.avatar}
                 />
               </Link>
@@ -316,6 +318,7 @@ export default function ArticleDetail() {
                 articleId={Number(id)}
                 userId={comment.user.id}
                 username={comment.user.name}
+                profileImageUrl={comment.user.profile_image_url ?? ""}
                 text={comment.text}
                 created_at={comment.created_at}
               />

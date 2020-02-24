@@ -29,6 +29,7 @@ interface CommentListItemProps {
   articleId: number;
   userId: number;
   username: string;
+  profileImageUrl?: string;
   text: string;
   created_at: string;
 }
@@ -60,7 +61,15 @@ const useStyles = makeStyles((_: Theme) =>
 );
 
 export const CommentListItem = (props: CommentListItemProps) => {
-  const { id, articleId, userId, username, text, created_at } = props;
+  const {
+    id,
+    articleId,
+    userId,
+    username,
+    profileImageUrl,
+    text,
+    created_at
+  } = props;
 
   const [
     DeleteConfirmationDialog,
@@ -115,7 +124,7 @@ export const CommentListItem = (props: CommentListItemProps) => {
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Link to="/">
-            <Avatar alt={username} src="/avatar.jpg" />
+            <Avatar alt={username} src={profileImageUrl ?? ""} />
           </Link>
         </ListItemAvatar>
         {isEditing ? (
