@@ -5,6 +5,7 @@ import "./env";
 
 const ADD_USER = gql`
   mutation AddUser(
+    $username: String!
     $name: String!
     $email: String!
     $password: String!
@@ -14,6 +15,7 @@ const ADD_USER = gql`
   ) {
     insert_user(
       objects: {
+        username: $username
         name: $name
         email: $email
         password: $password
@@ -65,7 +67,7 @@ const qiitaAuthHeader = {
 };
 
 (async () => {
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 30; i < 35; i++) {
     const res = await fetch(
       `https://qiita.com/api/v2/items?page=${i}&per_page=${100}`,
       { headers: qiitaAuthHeader }
@@ -77,6 +79,7 @@ const qiitaAuthHeader = {
       const addUserRes = await APOLLO_CLIENT_FOR_SCRIPTS.mutate({
         mutation: ADD_USER,
         variables: {
+          username: user.id,
           name: user.name || user.id,
           email: `${user.id}@example.com`,
           password:
@@ -109,6 +112,7 @@ const qiitaAuthHeader = {
           const addCommentUserRes = await APOLLO_CLIENT_FOR_SCRIPTS.mutate({
             mutation: ADD_USER,
             variables: {
+              username: c.user.id,
               name: c.user.name || c.user.id,
               email: `${c.user.id}@example.com`,
               password:
