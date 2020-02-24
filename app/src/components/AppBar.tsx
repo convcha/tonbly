@@ -1,4 +1,3 @@
-import Avatar from "@material-ui/core/Avatar";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import React from "react";
@@ -21,6 +20,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useAuth } from "../utils/auth";
+import { Avatar } from "./Avatar";
 import { Link } from "./Link";
 import { Logo } from "./Logo";
 import { SplitButton } from "./SplitButton";
@@ -312,7 +312,7 @@ export function AppBar() {
               color="inherit"
               className={classes.iconButtonAvatar}
             >
-              <Avatar alt="devilune" src="/avatar.jpg" />
+              <Avatar username="john" />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -323,7 +323,7 @@ export function AppBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <Avatar alt="devilune" src="/avatar.jpg" />
+              <Avatar username="john" />
             </IconButton>
           </div>
         </Toolbar>
