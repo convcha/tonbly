@@ -31,7 +31,7 @@
                 - content
                 - title
               set:
-                author_user_id: X-Hasura-User-Id
+                author_user_id: x-hasura-User-Id
             role: tonbly-admin
           - permission:
               check: {}
@@ -296,13 +296,25 @@
           - permission:
               filter: {}
             role: tonbly-admin
+        insert_permissions:
+          - permission:
+              check: {}
+              columns:
+                - email
+                - name
+                - password
+                - profile_image_url
+                - role
+                - salt
+            role: tonbly-admin
         select_permissions:
           - permission:
               allow_aggregations: true
               columns:
                 - id
-                - role
                 - name
+                - profile_image_url
+                - role
               filter: {}
             role: tonbly-admin
           - permission:
@@ -310,6 +322,7 @@
               columns:
                 - id
                 - name
+                - profile_image_url
               filter: {}
             role: tonbly-user
         table:

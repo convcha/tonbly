@@ -44,6 +44,7 @@ gql`
     created_at
     author {
       name
+      profile_image_url
     }
     article_tags {
       tag {
@@ -86,7 +87,10 @@ export const ArticleList = (props: ArticleListProps) => {
                 color="inherit"
                 style={{ marginTop: "6px" }}
               >
-                <Avatar src={"avatar.jpg"} className={classes.avatar} />
+                <Avatar
+                  src={article.author.profile_image_url ?? ""}
+                  className={classes.avatar}
+                />
               </Link>
               <ListItemText
                 primary={
