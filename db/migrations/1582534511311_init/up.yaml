@@ -296,17 +296,6 @@
           - permission:
               filter: {}
             role: tonbly-admin
-        insert_permissions:
-          - permission:
-              check: {}
-              columns:
-                - email
-                - name
-                - password
-                - profile_image_url
-                - role
-                - salt
-            role: tonbly-admin
         select_permissions:
           - permission:
               allow_aggregations: true
@@ -315,6 +304,7 @@
                 - name
                 - profile_image_url
                 - role
+                - username
               filter: {}
             role: tonbly-admin
           - permission:
@@ -323,6 +313,7 @@
                 - id
                 - name
                 - profile_image_url
+                - username
               filter: {}
             role: tonbly-user
         table:
@@ -333,13 +324,19 @@
               columns:
                 - email
                 - name
+                - profile_image_url
                 - role
-              filter: {}
+                - username
+              filter:
+                id:
+                  _eq: X-Hasura-User-Id
             role: tonbly-admin
           - permission:
               columns:
                 - email
                 - name
+                - profile_image_url
+                - username
               filter:
                 id:
                   _eq: X-Hasura-User-Id

@@ -60,6 +60,7 @@ CREATE SEQUENCE public.tag_id_seq
 ALTER SEQUENCE public.tag_id_seq OWNED BY public.tag.id;
 CREATE TABLE public."user" (
     id integer NOT NULL,
+    username text NOT NULL,
     name text NOT NULL,
     email text NOT NULL,
     password text NOT NULL,
@@ -93,6 +94,8 @@ ALTER TABLE ONLY public."user"
     ADD CONSTRAINT user_email_key UNIQUE (email);
 ALTER TABLE ONLY public."user"
     ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_username_key UNIQUE (username);
 CREATE TRIGGER set_public_article_updated_at BEFORE UPDATE ON public.article FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
 COMMENT ON TRIGGER set_public_article_updated_at ON public.article IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 CREATE TRIGGER set_public_comment_updated_at BEFORE UPDATE ON public.comment FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
