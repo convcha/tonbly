@@ -106,4 +106,4 @@ ALTER TABLE ONLY public.article_tag
 ALTER TABLE ONLY public.comment
     ADD CONSTRAINT comment_article_id_fkey FOREIGN KEY (article_id) REFERENCES public.article(id) ON UPDATE RESTRICT ON DELETE CASCADE;
 ALTER TABLE ONLY public.comment
-    ADD CONSTRAINT comment_comment_user_id_fkey FOREIGN KEY (comment_user_id) REFERENCES public."user"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT comment_comment_user_id_fkey FOREIGN KEY (comment_user_id) REFERENCES public."user"(id) ON UPDATE RESTRICT ON DELETE CASCADE;
