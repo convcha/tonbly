@@ -10,6 +10,6 @@
     "dump": "docker exec tonbly_postgres_1 pg_dump -U postgres -d postgres --column-inserts --data-only $(docker exec tonbly_postgres_1 psql -q -A -t -U postgres -c \"SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_schema, table_name\" | sed -e 's/^/-t /' | sed 's/$/ /' | tr -d '\\n') | sed -n -e '/^INSERT INTO public/p' >> dump.sql"
   },
   "devDependencies": {
-    "hasura-cli": "1.1.0"
+    "hasura-cli": "1.2.0-beta.1"
   }
 }
