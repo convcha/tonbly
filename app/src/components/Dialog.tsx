@@ -1,10 +1,10 @@
-import React, { useState } from "react";
 import {
   Button,
   Dialog as MuiDialog,
   DialogActions,
   DialogTitle
 } from "@material-ui/core";
+import React, { useState } from "react";
 
 export const useConfirmationDialog = (
   title: string,

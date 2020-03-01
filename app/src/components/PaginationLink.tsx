@@ -1,6 +1,6 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
 import { Pagination, PaginationItem } from "@material-ui/lab";
+import React from "react";
 import { Link, Route } from "react-router-dom";
 
 type PaginationLinkProps = {

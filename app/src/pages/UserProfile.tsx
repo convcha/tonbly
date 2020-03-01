@@ -1,9 +1,8 @@
-import React from "react";
-import { useParams } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import gql from "graphql-tag";
-import { ArticleList } from "../components/ArticleList";
-import { ListPageLayout } from "../components/ListPageLayout";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { ArticleList, ListPageLayout } from "../components";
 import { useGetArticlesWrittenByUserQuery } from "../generated/graphql";
 import { maxItemsPerPage } from "../utils/constants";
 import { useQuery } from "../utils/util";

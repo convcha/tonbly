@@ -1,12 +1,11 @@
 // FIXME: do not use any in this file
+import { MenuItem, Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
 import { default as MuiChipInput } from "material-ui-chip-input";
 import React, { InputHTMLAttributes, useState } from "react";
 import Autosuggest from "react-autosuggest";
-import match from "autosuggest-highlight/match";
-import parse from "autosuggest-highlight/parse";
-import Paper from "@material-ui/core/Paper";
-import MenuItem from "@material-ui/core/MenuItem";
 import { Tag } from "./Tag";
 
 const suggestions = [

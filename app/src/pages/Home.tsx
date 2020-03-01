@@ -1,8 +1,7 @@
-import React from "react";
 import { Typography } from "@material-ui/core";
 import gql from "graphql-tag";
-import { ArticleList } from "../components/ArticleList";
-import { ListPageLayout } from "../components/ListPageLayout";
+import React from "react";
+import { ArticleList, ListPageLayout } from "../components";
 import { useGetNewArticlesQuery } from "../generated/graphql";
 import { maxItemsPerPage } from "../utils/constants";
 import { useQuery } from "../utils/util";

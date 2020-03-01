@@ -1,9 +1,10 @@
 import { Button } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import gql from "graphql-tag";
 import React, { useEffect, useRef, useState } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
-import { ArticleEditor, EditingArticle } from "../components/ArticleEditor";
+import { ArticleEditor } from "../components";
+import { EditingArticle } from "../components/ArticleEditor";
 import {
   Article_Tag_Insert_Input,
   Tag_Constraint,
@@ -53,20 +54,6 @@ gql`
 
 const useStyles = makeStyles((_: Theme) =>
   createStyles({
-    container: {
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      margin: "5px"
-    },
-    editorHeader: {
-      display: "flex",
-      flexDirection: "column"
-    },
-    editorBody: {
-      flex: 1,
-      marginTop: "5px"
-    },
     editorFooter: {
       display: "flex",
       justifyContent: "flex-end",
@@ -108,7 +95,7 @@ export const ArticleEdit = () => {
     setDraft(value);
   };
 
-  const onCancelButtonClick: React.FormEventHandler = e => {
+  const onCancelButtonClick = () => {
     history.replace(`/articles/${id}`);
   };
 
@@ -150,7 +137,14 @@ export const ArticleEdit = () => {
   };
 
   return (
-    <form className={classes.container}>
+    <form
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        margin: "5px"
+      }}
+    >
       <ArticleEditor defaultValue={defaultValue} onChange={onDraftChange} />
       <div className={classes.editorFooter}>
         <Button

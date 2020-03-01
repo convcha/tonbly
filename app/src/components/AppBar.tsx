@@ -1,11 +1,14 @@
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
-import React from "react";
-import Badge from "@material-ui/core/Badge";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
+import {
+  AppBar as MuiAppBar,
+  Badge,
+  IconButton,
+  Menu,
+  MenuItem,
+  OutlinedInput,
+  Tab,
+  Tabs,
+  Toolbar
+} from "@material-ui/core";
 import {
   createStyles,
   fade,
@@ -13,18 +16,18 @@ import {
   Theme,
   withStyles
 } from "@material-ui/core/styles";
-import { AppBar as MuiAppBar } from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
-import { AccountCircle } from "@material-ui/icons";
-import SearchIcon from "@material-ui/icons/Search";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import { AccountCircle, Mail, Notifications, Search } from "@material-ui/icons";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "../utils/auth";
 import { Avatar } from "./Avatar";
 import { Link } from "./Link";
 import { Logo } from "./Logo";
 import { SplitButton } from "./SplitButton";
-import { useHistory } from "react-router-dom";
+
+interface StyledTabProps {
+  label: string;
+}
 
 const AntTabs = withStyles({
   root: {
@@ -70,10 +73,6 @@ const AntTab = withStyles((theme: Theme) =>
     selected: {}
   })
 )((props: StyledTabProps) => <Tab disableRipple {...props} />);
-
-interface StyledTabProps {
-  label: string;
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -229,7 +228,7 @@ export function AppBar() {
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
-            <MailIcon />
+            <Mail />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -237,7 +236,7 @@ export function AppBar() {
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
+            <Notifications />
           </Badge>
         </IconButton>
         <p>Notifications</p>
@@ -283,7 +282,7 @@ export function AppBar() {
           <div className={classes.sectionDesktop}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
-                <SearchIcon color="disabled" />
+                <Search color="disabled" />
               </div>
               <OutlinedInput
                 placeholder="検索"
@@ -300,7 +299,7 @@ export function AppBar() {
             </div>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
+                <Notifications />
               </Badge>
             </IconButton>
             <IconButton

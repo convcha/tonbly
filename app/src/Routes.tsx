@@ -3,11 +3,11 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import ArticleDetail from "./pages/ArticleDetail";
 import { ArticleEdit } from "./pages/ArticleEdit";
 import { ArticleNew } from "./pages/ArticleNew";
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
 import { Tags } from "./pages/Tags";
 import { UserProfile } from "./pages/UserProfile";
 import { useAuth } from "./utils/auth";
-import { Home } from "./pages/Home";
-import { Login } from "./pages/Login";
 
 export const Routes = () => (
   <Switch>

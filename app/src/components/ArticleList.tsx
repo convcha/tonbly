@@ -1,10 +1,10 @@
-import React from "react";
-import gql from "graphql-tag";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Divider, List, ListItem, ListItemText } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { ChatBubbleOutline, LocalOfferOutlined } from "@material-ui/icons";
 import { formatDistance, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
+import gql from "graphql-tag";
+import React from "react";
 import { ArticleListFragment } from "../generated/graphql";
 import { maxItemsPerPage } from "../utils/constants";
 import { Avatar } from "./Avatar";
@@ -15,20 +15,6 @@ interface ArticleListProps {
   articles: ArticleListFragment[];
   totalCount: number;
 }
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      backgroundColor: theme.palette.background.paper
-    },
-    avatar: {
-      marginRight: theme.spacing(1)
-    },
-    paginationUl: {
-      justifyContent: "center"
-    }
-  })
-);
 
 gql`
   fragment ArticleList on article {
@@ -55,6 +41,17 @@ gql`
     }
   }
 `;
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      backgroundColor: theme.palette.background.paper
+    },
+    avatar: {
+      marginRight: theme.spacing(1)
+    }
+  })
+);
 
 export const ArticleList = (props: ArticleListProps) => {
   const { articles, totalCount } = props;

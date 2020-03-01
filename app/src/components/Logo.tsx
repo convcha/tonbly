@@ -1,7 +1,7 @@
+import { Typography } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TypographyTypeMap } from "@material-ui/core/Typography/Typography";
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 
 type LogoProps = {
   variant: TypographyTypeMap["props"]["variant"];
@@ -10,11 +10,8 @@ type LogoProps = {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // marginRight: 30,
-      // flexGrow: 1,
       display: "none",
       fontFamily: "Patua One, cursive",
-      // color: "#19857b",
       [theme.breakpoints.up("sm")]: {
         display: "block"
       }

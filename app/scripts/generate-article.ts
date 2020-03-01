@@ -108,7 +108,6 @@ const qiitaAuthHeader = {
         ).json();
         for (let i = 0; i < commentsData.length; i++) {
           const c = commentsData[i];
-          console.log({ comment_user: c });
           const addCommentUserRes = await APOLLO_CLIENT_FOR_SCRIPTS.mutate({
             mutation: ADD_USER,
             variables: {
@@ -123,15 +122,13 @@ const qiitaAuthHeader = {
               profile_image_url: c.user.profile_image_url
             }
           });
-          const PUSH = {
+          comments.push({
             comment_user_id: addCommentUserRes!.data!.insert_user!.returning![0]
               .id,
             created_at: c.created_at,
             text: c.body,
             updated_at: c.updated_at
-          };
-          comments.push(PUSH);
-          console.log({ PUSH });
+          });
         }
       }
       console.log({ comments });

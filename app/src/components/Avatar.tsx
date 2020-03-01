@@ -1,6 +1,6 @@
-import React from "react";
-import Maybe from "graphql/tsutils/Maybe";
 import { Avatar as MuiAvatar } from "@material-ui/core";
+import Maybe from "graphql/tsutils/Maybe";
+import React from "react";
 import { Link } from "./Link";
 
 type AvatarProps = {

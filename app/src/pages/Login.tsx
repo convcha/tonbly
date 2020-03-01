@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import {
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Grid,
+  Link,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import React, { useState } from "react";
 import { Redirect, useHistory, useLocation } from "react-router-dom";
-import { Logo } from "../components/Logo";
+import { Logo } from "../components";
 import { useAuth } from "../utils/auth";
 
 const Copyright = () => (
@@ -29,9 +31,6 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
-  },
-  logo: {
-    marginBottom: "25px"
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -66,7 +65,7 @@ export const Login = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <div className={classes.logo}>
+        <div style={{ marginBottom: "25px" }}>
           <Logo variant="h2" />
         </div>
         <Typography component="h1" variant="h5">

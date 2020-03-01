@@ -1,22 +1,34 @@
-import { Button, Divider, Grid, IconButton, List } from "@material-ui/core";
-import Badge from "@material-ui/core/Badge";
-import Fab from "@material-ui/core/Fab";
-import { DeleteForeverOutlined, EditOutlined } from "@material-ui/icons";
+import {
+  Badge,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Fab,
+  Grid,
+  IconButton,
+  List,
+  Typography
+} from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import {
+  DeleteForeverOutlined,
+  EditOutlined,
+  ThumbUpOutlined
+} from "@material-ui/icons";
 import gql from "graphql-tag";
 import React, { useRef, useState } from "react";
-import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
-import { Avatar } from "../components/Avatar";
-import { CommentListItem } from "../components/CommentListItem";
-import { useConfirmationDialog } from "../components/Dialog";
-import { Editor, Viewer } from "../components/Editor";
-import { Link } from "../components/Link";
-import { Ribbon } from "../components/Ribbon";
-import { TagLink } from "../components/Tag";
-import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
+import {
+  Avatar,
+  CommentListItem,
+  Editor,
+  Link,
+  Ribbon,
+  TagLink,
+  useConfirmationDialog,
+  Viewer
+} from "../components";
 import {
   GetArticleDetailDocument,
   useAddCommentMutation,
@@ -95,30 +107,10 @@ const useStyles = makeStyles((theme: Theme) =>
         paddingRight: "130px"
       }
     },
-    grow: {
-      flexGrow: 1
-    },
-    author: {
-      marginBottom: "11px"
-    },
-    serial: {
-      marginBottom: "11px"
-    },
     avatar: {
       width: 60,
       height: 60,
       marginRight: "10px"
-    },
-    timestamp: {
-      color: "#888888"
-    },
-    likeButton: {
-      width: "60px",
-      height: "60px",
-      borderRadius: "50%"
-    },
-    title: {
-      marginBottom: "20px"
     },
     tags: {
       display: "flex",
@@ -129,9 +121,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       marginBottom: "50px"
     },
-    tag: {
-      borderRadius: "4px"
-    },
     footer: {
       [theme.breakpoints.up("md")]: {
         paddingLeft: "130px",
@@ -141,18 +130,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "auto",
       backgroundColor: "#f6f6f4"
     },
-    commentEditor: {
-      marginTop: "50px",
-      marginBottom: "10px"
-    },
     commentAvatar: {
       width: theme.spacing(4),
       height: theme.spacing(4)
-    },
-    root: {
-      width: "100%"
-      // maxWidth: 360,
-      // backgroundColor: theme.palette.background.paper
     }
   })
 );
@@ -232,8 +212,8 @@ export default function ArticleDetail() {
             direction="row"
             justify="space-between"
             alignItems="center"
-            className={classes.author}
             wrap="nowrap"
+            style={{ marginBottom: "11px" }}
           >
             <Grid container alignItems="center">
               <Avatar
@@ -245,7 +225,7 @@ export default function ArticleDetail() {
                 <Link to="/" color="inherit">
                   <Typography>{article.author.name}</Typography>
                 </Link>
-                <Typography variant="caption" className={classes.timestamp}>
+                <Typography variant="caption" style={{ color: "#888888" }}>
                   {formatISODateStringToYYYYMMDD(article.created_at)}
                   に公開
                 </Typography>
@@ -262,7 +242,7 @@ export default function ArticleDetail() {
                 color={liked ? "secondary" : "default"}
                 onClick={handleLikeClick}
               >
-                <ThumbUpOutlinedIcon />
+                <ThumbUpOutlined />
               </Fab>
             </Badge>
             {isOwnArticle && (
@@ -284,14 +264,14 @@ export default function ArticleDetail() {
               </>
             )}
           </Grid>
-          <div className={classes.serial}>
+          <div style={{ marginBottom: "11px" }}>
             <Ribbon text="連載 | モデリング入門" />
           </div>
           <Typography
             variant="h4"
             component="h1"
             gutterBottom
-            className={classes.title}
+            style={{ marginBottom: "20px" }}
           >
             {article.title}
           </Typography>
@@ -310,7 +290,7 @@ export default function ArticleDetail() {
             コメント
           </Typography>
           <Divider />
-          <List className={classes.root}>
+          <List style={{ width: "100%" }}>
             {article.comments.map(comment => (
               <CommentListItem
                 key={comment.id}
@@ -324,7 +304,7 @@ export default function ArticleDetail() {
               />
             ))}
           </List>
-          <div className={classes.commentEditor}>
+          <div style={{ marginTop: "50px", marginBottom: "10px" }}>
             <Grid
               container
               alignItems="center"
