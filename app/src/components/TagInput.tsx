@@ -3,52 +3,12 @@ import { MenuItem, Paper } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
+import gql from "graphql-tag";
 import { default as MuiChipInput } from "material-ui-chip-input";
 import React, { InputHTMLAttributes, useState } from "react";
 import Autosuggest from "react-autosuggest";
+import { useGetTagsQuery } from "../generated/graphql";
 import { Tag } from "./Tag";
-
-const suggestions = [
-  { name: "Afghanistan" },
-  { name: "Aland Islands" },
-  { name: "Albania" },
-  { name: "Algeria" },
-  { name: "American Samoa" },
-  { name: "Andorra" },
-  { name: "Angola" },
-  { name: "Anguilla" },
-  { name: "Antarctica" },
-  { name: "Antigua and Barbuda" },
-  { name: "Argentina" },
-  { name: "Armenia" },
-  { name: "Aruba" },
-  { name: "Australia" },
-  { name: "Austria" },
-  { name: "Azerbaijan" },
-  { name: "Bahamas" },
-  { name: "Bahrain" },
-  { name: "Bangladesh" },
-  { name: "Barbados" },
-  { name: "Belarus" },
-  { name: "Belgium" },
-  { name: "Belize" },
-  { name: "Benin" },
-  { name: "Bermuda" },
-  { name: "Bhutan" },
-  { name: "Bolivia, Plurinational State of" },
-  { name: "Bonaire, Sint Eustatius and Saba" },
-  { name: "Bosnia and Herzegovina" },
-  { name: "Botswana" },
-  { name: "Bouvet Island" },
-  { name: "Brazil" },
-  { name: "British Indian Ocean Territory" },
-  { name: "Brunei Darussalam" },
-  { name: "テスト" },
-  { name: "設計" },
-  { name: "基本設計" },
-  { name: "詳細設計" },
-  { name: "テスト駆動開発" }
-];
 
 const useChipInputStyles = makeStyles((_: Theme) =>
   createStyles({
@@ -155,7 +115,18 @@ const getSuggestionValue = (suggestion: any) => {
   return suggestion.name;
 };
 
-const getSuggestions = (value: string): any[] => {
+gql`
+  query GetTags {
+    tag(order_by: [{ label: asc }]) {
+      label
+    }
+  }
+`;
+
+const getSuggestions = (
+  suggestions: { name: string }[],
+  value: string
+): any[] => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
   let count = 0;
@@ -217,9 +188,18 @@ export const TagInput = (
   const [suggestions, setSuggestions] = useState([] as string[]);
   const [value, setValue] = useState(defaultValue ?? []);
   const [textFieldInput, setTextFieldInput] = useState("");
+  const { loading, error, data } = useGetTagsQuery();
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+  if (!data) return <p>Data not found :(</p>;
+
+  const suggestionsData = data.tag.map(t => ({
+    name: t.label
+  }));
 
   const handleSuggestionsFetchRequested = ({ value }: any) => {
-    setSuggestions(getSuggestions(value));
+    setSuggestions(getSuggestions(suggestionsData, value));
   };
 
   const handleSuggestionsClearRequested = () => {
