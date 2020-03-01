@@ -1,6 +1,6 @@
-import React from "react";
 import { Chip, ChipTypeMap } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React from "react";
 import { ChipLink, ChipLinkProps } from "./ChipLink";
 
 type TagProps = ChipTypeMap["props"] &

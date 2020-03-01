@@ -1,17 +1,17 @@
-import React from "react";
 import {
   Editor as TuiEditor,
   Viewer as TuiViewer
 } from "@toast-ui/react-editor";
 import "codemirror/lib/codemirror.css";
-import "tui-editor/dist/tui-editor.min.css";
-import "tui-editor/dist/tui-editor-contents.min.css";
 import "highlight.js/styles/gml.css";
-import "tui-editor/dist/tui-editor-extScrollSync";
-import "tui-editor/dist/tui-editor-extColorSyntax";
-import "tui-editor/dist/tui-editor-extUML";
+import React from "react";
+import "tui-editor/dist/tui-editor-contents.min.css";
 import "tui-editor/dist/tui-editor-extChart";
+import "tui-editor/dist/tui-editor-extColorSyntax";
+import "tui-editor/dist/tui-editor-extScrollSync";
 import "tui-editor/dist/tui-editor-extTable";
+import "tui-editor/dist/tui-editor-extUML";
+import "tui-editor/dist/tui-editor.min.css";
 
 interface Hooks {
   previewBeforeHook: (...args: any[]) => void;

@@ -1,17 +1,17 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import gql from "graphql-tag";
-import React, { useRef, useState } from "react";
 import {
+  Box,
   Button,
   Divider,
   IconButton,
   ListItem,
   ListItemAvatar,
-  ListItemText
+  ListItemText,
+  Typography
 } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { DeleteForeverOutlined, EditOutlined } from "@material-ui/icons";
+import gql from "graphql-tag";
+import React, { useRef, useState } from "react";
 import {
   GetArticleDetailDocument,
   useDeleteCommentMutation,

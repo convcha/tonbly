@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./App.css";
-import { AppBar } from "./components/AppBar";
+import { AppBar } from "./components";
+import { Routes } from "./Routes";
 import { api } from "./utils/api";
 import { useAuth } from "./utils/auth";
-import { Routes } from "./Routes";
 
 export default function App() {
   const auth = useAuth();

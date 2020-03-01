@@ -1,7 +1,7 @@
 import React from "react";
+import { Link } from "./Link";
 // import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import "./Ribbon.css";
-import { Link } from "./Link";
 
 interface RibbonProps {
   text: string;

@@ -1,6 +1,5 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Editor } from "./Editor";
 import { TagInput } from "./TagInput";
 
@@ -15,22 +14,8 @@ interface ArticleEditorProps {
   onChange?: (value: EditingArticle) => void;
 }
 
-const useStyles = makeStyles((_: Theme) =>
-  createStyles({
-    header: {
-      display: "flex",
-      flexDirection: "column"
-    },
-    body: {
-      flex: 1,
-      marginTop: "5px"
-    }
-  })
-);
-
 export const ArticleEditor = (props: ArticleEditorProps) => {
   const { defaultValue, onChange } = props;
-  const classes = useStyles();
   const [title, setTitle] = useState(defaultValue?.title ?? "");
   const [tags, setTags] = useState(defaultValue?.tags ?? []);
   const [content, setContent] = useState(defaultValue?.content ?? "");
@@ -86,7 +71,7 @@ export const ArticleEditor = (props: ArticleEditorProps) => {
 
   return (
     <>
-      <div className={classes.header}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
           id="outlined-basic"
           variant="outlined"
@@ -103,7 +88,7 @@ export const ArticleEditor = (props: ArticleEditorProps) => {
           style={{ marginTop: "5px" }}
         />
       </div>
-      <div className={classes.body}>
+      <div style={{ flex: 1, marginTop: "5px" }}>
         <Editor
           ref={editorRef}
           onChange={onContentChange}

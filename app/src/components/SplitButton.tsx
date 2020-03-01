@@ -1,13 +1,15 @@
+import {
+  Button,
+  ButtonGroup,
+  ClickAwayListener,
+  Grow,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper
+} from "@material-ui/core";
+import { ArrowDropDown } from "@material-ui/icons";
 import React from "react";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
 import { useHistory } from "react-router-dom";
 
 const options = ["記事を書く", "下書き一覧"];
@@ -19,7 +21,6 @@ export function SplitButton() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
     history.push("/articles/new");
   };
 
@@ -64,7 +65,7 @@ export function SplitButton() {
           aria-haspopup="menu"
           onClick={handleToggle}
         >
-          <ArrowDropDownIcon />
+          <ArrowDropDown />
         </Button>
       </ButtonGroup>
       <Popper
