@@ -1,6 +1,6 @@
 import { Avatar as MuiAvatar } from "@material-ui/core";
-import Maybe from "graphql/tsutils/Maybe";
-import React from "react";
+import React, { CSSProperties } from "react";
+import { Maybe } from "../generated/graphql";
 import { Link } from "./Link";
 
 type AvatarProps = {
@@ -10,12 +10,12 @@ type AvatarProps = {
   className?: { root?: string; link?: string; avatar?: string };
   style?: {
     root?: React.CSSProperties;
-    link?: React.CSSProperties;
+    link?: CSSProperties;
     avatar?: React.CSSProperties;
   };
 };
 
-export const Avatar: React.FC<AvatarProps> = props => {
+export const Avatar: React.FC<AvatarProps> = (props) => {
   const { link = true, username, profileImageUrl, className, style } = props;
 
   return (

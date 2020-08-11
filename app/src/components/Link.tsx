@@ -3,15 +3,16 @@ import { LinkTypeMap } from "@material-ui/core/Link/Link";
 import React from "react";
 import {
   Link as RouterLink,
-  LinkProps as MuiLinkProps
+  LinkProps as MuiLinkProps,
 } from "react-router-dom";
 
-type LinkProps = LinkTypeMap["props"] &
-  MuiLinkProps & {
-    style?: React.CSSProperties;
-  };
+// type LinkProps = LinkTypeMap["props"] &
+//   MuiLinkProps & {
+//     style?: React.CSSProperties;
+//   };
 
-export const Link = React.forwardRef<any, LinkProps>(
+// FIXME: Do not use any
+export const Link = React.forwardRef<any, any>(
   (props: LinkTypeMap["props"] & MuiLinkProps, ref) => (
     <MuiLink ref={ref} component={RouterLink} {...props} />
   )

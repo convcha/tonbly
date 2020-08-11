@@ -1,8 +1,10 @@
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloClient } from "apollo-client";
-import { ApolloLink } from "apollo-link";
-import { onError } from "apollo-link-error";
-import { HttpLink } from "apollo-link-http";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
@@ -22,15 +24,15 @@ export const apolloClient = new ApolloClient({
     }),
     new HttpLink({
       uri: "http://db.tonbly.localhost/v1/graphql",
-      credentials: "include"
-    })
+      credentials: "include",
+    }),
   ]),
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: "cache-and-network"
-    }
-  }
+      fetchPolicy: "cache-and-network",
+    },
+  },
 });
 
 ReactDOM.render(
